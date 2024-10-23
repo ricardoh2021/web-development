@@ -3,81 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mondrian Project</title>
+    <title>Complex Mondrian Composition</title>
     <style>
       /*
-      Write your CSS here
-      Gap Colour: #000
-      White: #F0F1EC
-      Red: #E72F24
-      Black: #232629
-      Blue: #004592
-      Yellow: #F9D01E
-
-      For dimensions, see dimensions.png image.
-      HINT: Remember you can't change the properties of grid lines.
-      But grid lines are transparent!
-      */
+        Colors:
+        Gap Color: #000
+        White: #F0F1EC
+        Red: #E72F24
+        Black: #232629
+        Blue: #004592
+        Yellow: #F9D01E
+        */
 
       .container {
-        width: 748px;
-        height: 748px;
+        width: 1000px;
+        height: 1000px;
         background-color: black;
         display: grid;
-        grid-template-columns: 320px 198px 153px 50px;
-        grid-template-rows: 414px auto 155px 20px;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(12, 1fr);
         gap: 9px;
       }
 
+      .block {
+        background-color: #f0f1ec; /* Default to white */
+      }
+
       .red {
-        background-color: red;
+        background-color: #e72f24;
       }
-
-      .white {
-        background-color: #f0f1ec;
+      .blue {
+        background-color: #004592;
       }
-
+      .yellow {
+        background-color: #f9d01e;
+      }
       .black {
         background-color: #232629;
       }
 
-      .blue {
-        background-color: #004592;
-        margin-bottom: 10px;
+      /* Positioning different blocks in the grid */
+      .block1 {
+        grid-area: 1 / 1 / 4 / 4;
       }
-
-      .yellow {
-        background-color: #f9d01e;
-      }
-
       .block2 {
-        grid-column: span 3;
+        grid-area: 1 / 4 / 2 / 8;
       }
-
       .block3 {
-        grid-row: span 2;
+        grid-area: 1 / 8 / 3 / 11;
       }
       .block4 {
-        grid-area: 2 / 2 / 4 /4;
+        grid-area: 3 / 1 / 5 / 3;
+      }
+      .block5 {
+        grid-area: 2 / 4 / 6 / 7;
       }
       .block6 {
-        grid-row: span 2;
+        grid-area: 4 / 7 / 8 / 10;
+      }
+      .block7 {
+        grid-area: 5 / 1 / 7 / 4;
+      }
+      .block8 {
+        grid-area: 7 / 4 / 9 / 8;
+      }
+      .block9 {
+        grid-area: 9 / 1 / 12 / 6;
+      }
+      .block10 {
+        grid-area: 8 / 8 / 12 / 11;
+      }
+      .block11 {
+        grid-area: 4 / 3 / 5 / 4;
+      }
+      .block12 {
+        grid-area: 6 / 6 / 7 / 7;
       }
     </style>
   </head>
-
   <body>
-    <!-- Write your HTML here -->
     <div class="container">
       <div class="block block1 red"></div>
-      <div class="block block2 white"></div>
-      <div class="block block3 white"></div>
-      <div class="block block4 white"></div>
-      <div class="block block5 blue"></div>
-      <div class="block block6 white"></div>
-      <div class="block block9 white"></div>
-      <div class="block block7 yellow"></div>
-      <div class="block block8 black"></div>
+      <div class="block block2 blue"></div>
+      <div class="block block3 yellow"></div>
+      <div class="block block4 black"></div>
+      <div class="block block5 white"></div>
+      <div class="block block6 red"></div>
+      <div class="block block7 blue"></div>
+      <div class="block block8 yellow"></div>
+      <div class="block block9 black"></div>
+      <div class="block block10 red"></div>
+      <div class="block block11 blue"></div>
+      <div class="block block12 yellow"></div>
     </div>
   </body>
 </html>
