@@ -30,3 +30,26 @@
 .img-container * {
   height: 30px;
 }
+
+@media (min-width: 62em) {
+  .featurette-heading {
+    margin-top: 7rem;
+  }
+}
+@media (min-width: 40em) {
+  .featurette-heading {
+    font-size: 50px;
+  }
+}
+
+.featurette-heading {
+  letter-spacing: -0.05rem;
+}
+.featurette-divider {
+  margin: 5rem 0;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
