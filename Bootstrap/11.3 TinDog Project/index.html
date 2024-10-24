@@ -156,23 +156,78 @@
     <section id="testimonial">
       <div class="p-5 text-center bg-body-tertiary">
         <div class="container py-5">
-          <h2 class="text-body-emphasis">
-            "I no longer have to sniff other dogs for love. I've found the
-            hottest Corgi on TinDog. Woof."
-          </h2>
-          <p class="col-lg-8 mx-auto lead">
-            This takes the basic jumbotron above and makes its background
-            edge-to-edge with a <code>.container</code> inside to align content.
-            Similar to above, it's been recreated with built-in grid and utility
-            classes.
-          </p>
-          <img
-            class="profile-img mt-5 mb-2"
-            src="./images/dog-img.jpg"
-            alt="Dog Profile"
-          />
-          <p class="col-lg-8 mx-auto lead mt-2">Pebbles, New York</p>
-          <div class="container">
+          <div
+            id="testimonialCarousel"
+            class="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <div class="carousel-inner">
+              <!-- First Testimonial -->
+              <div class="carousel-item active">
+                <h2 class="text-body-emphasis">
+                  "I no longer have to sniff other dogs for love. I've found the
+                  hottest Corgi on TinDog. Woof."
+                </h2>
+                <p class="col-lg-8 mx-auto lead">
+                  This takes the basic jumbotron above and makes its background
+                  edge-to-edge with a <code>.container</code> inside to align
+                  content. Similar to above, it's been recreated with built-in
+                  grid and utility classes.
+                </p>
+                <img
+                  class="profile-img mt-5 mb-2"
+                  src="./images/dog-img.jpg"
+                  alt="Dog Profile"
+                />
+                <p class="col-lg-8 mx-auto lead mt-2">Pebbles, New York</p>
+              </div>
+              <!-- Second Testimonial -->
+              <div class="carousel-item">
+                <h2 class="text-body-emphasis">
+                  "TinDog made finding friends easy. I now have play dates every
+                  weekend!"
+                </h2>
+                <p class="col-lg-8 mx-auto lead">
+                  Using the TinDog platform, I've connected with other dog
+                  owners in my area, and we now meet up regularly for dog walks.
+                </p>
+                <img
+                  class="profile-img mt-5 mb-2"
+                  src="./images/Chihuahua-head.jpg"
+                  alt="Another Dog Profile"
+                />
+                <p class="col-lg-8 mx-auto lead mt-2">Max, California</p>
+              </div>
+              <!-- Additional Testimonials can be added here -->
+            </div>
+            <!-- Carousel Controls -->
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#testimonialCarousel"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#testimonialCarousel"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+          <!-- Trusted By Section -->
+          <div class="container mt-5">
             <div class="row">
               <div class="col-lg-3 col-sm-12">
                 <img
