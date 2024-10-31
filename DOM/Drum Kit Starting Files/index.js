@@ -9,12 +9,27 @@ const sounds = {
     "l": "./sounds/crash.mp3"
 };
 
-buttons.forEach(button => button.addEventListener("click", () => playSound(button.innerHTML)));
-document.addEventListener("keydown", event => playSound(event.key));
+buttons.forEach(button => button.addEventListener("click", () => {
+    handleInteraction(button.innerHTML);
+}));
+document.addEventListener("keydown", event => {
+    handleInteraction(event.key);
+});
+
+function handleInteraction(input) {
+    const key = input;
+    playSound(key);
+    buttonAnimation(key);
+}
 
 function playSound(key) {
-    const soundPath = sounds[key];
-    if (soundPath) {
-        new Audio(soundPath).play();
+    if (sounds[key]) new Audio(sounds[key]).play();
+}
+
+function buttonAnimation(key) {
+    const activeButton = document.querySelector(`.${key}`);
+    if (activeButton) {
+        activeButton.classList.add("pressed");
+        setTimeout(() => activeButton.classList.remove("pressed"), 100);
     }
 }
