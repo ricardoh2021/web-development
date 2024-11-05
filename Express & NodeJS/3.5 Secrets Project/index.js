@@ -9,7 +9,7 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-function checkPassword(req, res, next) {
+function checkPassword(req, res) {
     const password = req.body["password"];
     console.log(password);
     if (password === 'ILoveProgramming') {
