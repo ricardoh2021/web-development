@@ -1,0 +1,14 @@
+<%- include("partials/header.ejs") %>
+<div class="container">
+    <h2>All Posts</h2>
+    <!-- Logic for displaying posts -->
+    <% posts.forEach(function(post) { %>
+        <div class="post">
+            <h3><%= post.title %></h3>
+            <p><%= post.content %></p>
+            <a href="/edit/<%= post.id %>">Edit</a> | 
+            <a href="/delete/<%= post.id %>">Delete</a>
+        </div>
+    <% }) %>
+</div>
+<%- include("partials/footer.ejs") %>
