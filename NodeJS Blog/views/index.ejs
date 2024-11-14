@@ -1,5 +1,16 @@
 <%- include("partials/header.ejs") %>
-<div class="container">
+<section class="hero-section" style="background-image: url('/images/boat.jpeg'); background-attachment: fixed; background-size: cover; background-position: center; padding: 100px 0;">
+    <div class="container text-start mb-5">
+      <h1 class="display-5 fw-bold text-white">Welcome to My Blog</h1>
+      <div class="col-lg-6">
+        <p class="lead mb-4 text-light">Join me as I share my thoughts, insights, and stories on technology, life, and more. Discover content that engages, inspires, and educates.</p>
+        <div class="d-grid gap-2 d-sm-flex">
+          <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Read More</button>
+          <button type="button" class="btn btn-outline-light btn-lg px-4">Contact Me</button>
+        </div>
+      </div>
+    </div>
+  </section><div class="container">
     <h2>All Posts</h2>
     <!-- Logic for displaying posts -->
     <% posts.forEach(function(post) { %>
