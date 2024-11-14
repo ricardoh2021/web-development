@@ -10,16 +10,37 @@
         </div>
       </div>
     </div>
-  </section><div class="container">
-    <h2>All Posts</h2>
-    <!-- Logic for displaying posts -->
-    <% posts.forEach(function(post) { %>
-        <div class="post">
-            <h3><%= post.title %></h3>
-            <p><%= post.content %></p>
-            <a href="/edit/<%= post.id %>">Edit</a> | 
-            <a href="/delete/<%= post.id %>">Delete</a>
-        </div>
-    <% }) %>
-</div>
+  </section>
+  <section id="blogs"> 
+    <div class="container">
+        <h2>All Posts</h2>
+        <!-- Blog -->
+        <!-- Logic for displaying posts -->
+        <div class="row mb-2" data-masonry='{"percentPosition": true }'>
+            <% posts.forEach(post => { %>
+
+                <div class="col-md-6 " data-aos="fade-up">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                      <div class="col-auto d-none d-lg-block">
+                        <img class="thumbnail-image" src="<%= post.image %>" alt="Thumbnail" width="200" height="250">
+                      </div>
+                      <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary-emphasis"><%= post.category2 %></strong>
+                        <h3 class="mb-0"><%= post.title %></h3>
+                        <div class="mb-1 text-body-secondary">Date Posted: <%= post.date.toLocaleDateString("en-US") %></div>
+                        <p class="card-text mb-auto"><%= post.content %></p>
+                        <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
+                          Continue reading
+                          <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+    
+            <% }) %>
+            
+          </div>
+    </div>
+  </section>
+
 <%- include("partials/footer.ejs") %>

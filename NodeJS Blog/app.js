@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import blogRoutes from './routes/blogRoutes.js';
-
 const app = express();
 
 // Get the directory name
