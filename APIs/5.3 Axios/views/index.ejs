@@ -35,7 +35,7 @@
     </form>
 
     <section id="cards" class="cards">
-      <% if (data) { %>
+      <% if (locals.data) { %>
         <article class="card-item">
           <h2 class="card-activity">
             <%= data.activity %>
@@ -50,7 +50,7 @@
             </span>
           </div>
         </article>
-        <% } else if (error){ %>
+        <% } else if (locals.error){ %>
          
           <div id="tag-error" class="tag-error">
             <%= error %>

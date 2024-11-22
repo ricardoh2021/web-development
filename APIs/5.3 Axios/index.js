@@ -16,11 +16,10 @@ app.get("/", async (req, res) => {
     const response = await axios.get("https://bored-api.appbrewery.com/random");
     const result = response.data;
     console.log(result);
-    res.render("index.ejs", { data: result, error: null });
+    res.render("index.ejs", { data: result });
   } catch (error) {
     console.error("Failed to make request:", error.message);
     res.render("index.ejs", {
-      data: null,
       error: error.message,
     });
   }
@@ -31,6 +30,10 @@ app.post("/", async (req, res) => {
   const type = req.body.type;
   const participants = req.body.participants;
 
+  console.log(type);
+  console.log(participants);
+
+
 
   // Step 2: Play around with the drop downs and see what gets logged.
   // Use axios to make an API request to the /filter endpoint. Making
@@ -38,7 +41,9 @@ app.post("/", async (req, res) => {
   // Render the index.ejs file with a single *random* activity that comes back
   // from the API request.
   try {
-    const response = await axios.get(`https://bored-api.appbrewery.com/filter?type=${type}&participants=${participants}`);
+    const url = `https://bored-api.appbrewery.com/filter?type=${type}&participants=${participants}`;
+    console.log(url);
+    const response = await axios.get(url);
     // const result = {
     //   activity: 'Pick up litter around your favorite park',
     //   availability: 0.05,
@@ -52,12 +57,14 @@ app.post("/", async (req, res) => {
     //   key: '4894697'
     // }
     const result = response.data;
+    const randomIndex = Math.floor(Math.random() * arr.length); // Generate a random index
+
+    const activity = result[randomIndex];
     console.log(result);
-    res.render("index.ejs", { data: result, error: null });
+    res.render("index.ejs", { data: result });
   } catch (error) {
     console.error("Failed to make request:", error.message);
     res.render("index.ejs", {
-      data: null,
       error: error.message,
     });
   }
