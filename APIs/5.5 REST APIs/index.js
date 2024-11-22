@@ -12,7 +12,9 @@ const API_URL = "https://secrets-api.appbrewery.com";
 // https://secrets-api.appbrewery.com/
 
 //TODO 1: Add your own bearer token from the previous lesson.
-const yourBearerToken = "";
+const yourBearerToken = "9a5ee95c-4472-4d74-b8d1-4d75f6d8cbde";
+const yourUsername = "DaintyKuma";
+const yourPassword = "KumaTest123";
 const config = {
   headers: { Authorization: `Bearer ${yourBearerToken}` },
 };
@@ -34,22 +36,69 @@ app.post("/get-secret", async (req, res) => {
 });
 
 app.post("/post-secret", async (req, res) => {
+  console.log(req.body);
+  const secret = req.body.secret;
+  const score = req.body.score;
   // TODO 2: Use axios to POST the data from req.body to the secrets api servers.
+
+  try {
+    const response = await axios.post(API_URL + "/secrets/",
+      {
+        secret,
+        score
+      }
+      , config);
+
+    res.render("index.ejs", { content: JSON.stringify(response.data) });
+  } catch (error) {
+    res.render("index.ejs", { content: error });
+  }
 });
 
 app.post("/put-secret", async (req, res) => {
   const searchId = req.body.id;
+  const secret = req.body.secret;
+  const score = req.body.score;
   // TODO 3: Use axios to PUT the data from req.body to the secrets api servers.
+  try {
+    const response = await axios.put(API_URL + "/secrets/" + searchId,
+      {
+        secret,
+        score
+      }
+      , config);
+
+    res.render("index.ejs", { content: JSON.stringify(response.data) });
+  } catch (error) {
+    res.render("index.ejs", { content: error });
+  }
+
 });
 
 app.post("/patch-secret", async (req, res) => {
   const searchId = req.body.id;
   // TODO 4: Use axios to PATCH the data from req.body to the secrets api servers.
+  try {
+    const response = await axios.patch(API_URL + "/secrets/" + searchId,
+      req.body
+      , config);
+
+    res.render("index.ejs", { content: JSON.stringify(response.data.newData) });
+  } catch (error) {
+    res.render("index.ejs", { content: error });
+  }
 });
 
 app.post("/delete-secret", async (req, res) => {
   const searchId = req.body.id;
   // TODO 5: Use axios to DELETE the item with searchId from the secrets api servers.
+  try {
+    const response = await axios.delete(API_URL + "/secrets/" + searchId, config);
+
+    res.render("index.ejs", { content: JSON.stringify(response.data) });
+  } catch (error) {
+    res.render("index.ejs", { content: error });
+  }
 });
 
 app.listen(port, () => {
