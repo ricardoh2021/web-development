@@ -46,9 +46,13 @@ app.post("/add", async (req, res) => {
     const data = result.rows[0];
     const countryCode = data.country_code;
 
-    await db.query("INSERT INTO visited_countries (country_code) VALUES ($1)", [
-      countryCode,
-    ]);
+    try {
+      await db.query("INSERT INTO visited_countries (country_code) VALUES ($1)", [
+        countryCode,
+      ]);
+    } catch (error) {
+      console.log("This has already been added.")
+    }
     res.redirect("/");
   }
 });

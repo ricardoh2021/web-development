@@ -48,23 +48,28 @@ app.post("/add", async (req, res) => {
   try {
     // Use parameterized queries to prevent SQL injection
     const countryQuery = await db.query(
-      'SELECT * FROM countries WHERE LOWER(country_name) = LOWER($1)',
+      "SELECT * FROM countries WHERE country_name ILIKE '%' || $1 || '%'",
       [userCountryInput]
     );
+    const countryCodes = await getVisitedCountries();
+
 
     if (countryQuery.rowCount > 0) {
       const countryCode = countryQuery.rows[0].country_code;
       console.log(`Country found: ${countryCode}`);
 
-      await db.query(
-        'INSERT INTO visited_countries (country_code) VALUES ($1)',
-        [countryCode]
-      );
+      try {
+        await db.query(
+          'INSERT INTO visited_countries (country_code) VALUES ($1)',
+          [countryCode]
+        );
+        res.redirect("/");
+      } catch (error) {
+        res.render("index.ejs", { countries: countryCodes, total: countryCodes.length, error: "Country has already been added, try again." });
 
-      res.redirect("/");
+      }
     } else {
-      console.log('Country not found.');
-      res.redirect("/");
+      res.render("index.ejs", { countries: countryCodes, total: countryCodes.length, error: "Country does not exist, try again" });
     }
   } catch (err) {
     console.error("Error adding country:", err);
