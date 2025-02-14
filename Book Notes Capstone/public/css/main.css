@@ -26,14 +26,14 @@
 }
 .hero-section .nav-link {
   color: white !important;
-  transition: font-size 0.5s ease-in-out;
+  transition: transform 0.25s ease-in-out;
 }
 .hero-section .nav-link:hover {
   opacity: 0.8;
   transform: scale(1.05);
 }
 .hero-section .nav-item {
-  font-size: 25px;
+  font-size: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 

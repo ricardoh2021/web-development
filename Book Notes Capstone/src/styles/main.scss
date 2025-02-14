@@ -25,7 +25,7 @@
 
   .nav-link {
     color: white !important;
-    transition: font-size 0.5s ease-in-out; // Speed and transition type
+    transition: transform 0.25s ease-in-out; // Speed and transition type
 
     &:hover {
       opacity: 0.8;
@@ -34,7 +34,7 @@
   }
 
   .nav-item {
-    font-size: 25px;
+    font-size: 20px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); // Horizontal, Vertical, Blur, Color
   }
 }
