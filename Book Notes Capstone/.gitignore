@@ -1,0 +1,10 @@
+# Webpack 
+
+dist/
+public/**/*.js
+public/**/*.css
+public/**/*.map
+
+.cache/
+
+node_modules
