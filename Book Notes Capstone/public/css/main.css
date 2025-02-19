@@ -9,6 +9,7 @@
   color: white;
   position: relative;
   z-index: 1;
+  height: 75vh;
 }
 .hero-section::before {
   content: "";
