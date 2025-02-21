@@ -1,3 +1,27 @@
+/* Ensure the navbar stays fixed at the top */
+.navbar {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1050;
+}
+
+.nav-link {
+  color: white !important;
+  transition: transform 0.25s ease-in-out; // Speed and transition type
+
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.05); // Slightly enlarge on hover
+  }
+}
+
+.nav-item {
+  font-size: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); // Horizontal, Vertical, Blur, Color
+}
+
 .hero-section {
   background-image: url("../../public/assets/images/books.jpg");
   background-size: cover;
@@ -23,19 +47,12 @@
     position: relative;
     z-index: 2;
   }
+}
 
-  .nav-link {
-    color: white !important;
-    transition: transform 0.25s ease-in-out; // Speed and transition type
-
-    &:hover {
-      opacity: 0.8;
-      transform: scale(1.05); // Slightly enlarge on hover
-    }
-  }
-
-  .nav-item {
-    font-size: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); // Horizontal, Vertical, Blur, Color
-  }
+.book-card {
+  background-size: cover; /* Ensures the image covers the card */
+  aspect-ratio: 1 / 1.618; /* Golden ratio */
+  width: 100%; /* Make the card responsive */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
 }

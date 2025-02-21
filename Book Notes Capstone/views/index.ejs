@@ -1,14 +1,27 @@
 <%- include('partials/header.ejs'); -%>
+<header>
+  <nav class="navbar navbar-expand-sm">
+    <div class="container">
+      <!-- Hamburger Menu Button -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Collapsible Navbar Links -->
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item px-2"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+          <li class="nav-item px-2"><a href="#" class="nav-link">My Book Notes</a></li>
+          <li class="nav-item px-2"><a href="#" class="nav-link">About</a></li>
+          <li class="nav-item px-2"><a href="#" class="nav-link">Add New Book Note</a></li>
+          <li class="nav-item px-2"><a href="#" class="nav-link">Update Book Note</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
 <div class="hero-section px-4 pb-5 mb-5 text-center" >
-    <header class="d-flex justify-content-center py-3">
-      <ul class="nav">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">My Book Notes</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Add New Book Note</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Update Book Note</a></li>
-      </ul>
-    </header>
     <h1 class="display-5 fw-bold py-5">Centered hero</h1>
     <div class="col-lg-6 mx-auto">
       <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
@@ -19,16 +32,16 @@
       </div>
     </div>
 </div>
-<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5 mx-5">
     <!-- Book Card 1 -->
     <div class="col">
-      <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('book-cover-1.jpg');">
+      <div class="book-card card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url(https://cdn11.bigcommerce.com/s-smelw44hfe/images/stencil/1280x1280/products/2504/5186/DMCBP_r__19766__76086.1721843618.jpg?c=2);">
         <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
           <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">The Midnight Library</h3>
           <p class="mb-4">A thought-provoking exploration of regret, choices, and second chances.</p>
           <ul class="d-flex list-unstyled mt-auto">
             <li class="me-auto">
-              <img src="https://via.placeholder.com/32" alt="Author" width="32" height="32" class="rounded-circle border border-white">
+              <img src="" alt="Author" width="32" height="32" class="rounded-circle border border-white">
             </li>
             <li class="d-flex align-items-center me-3">
               <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#star-fill"></use></svg>
@@ -88,5 +101,52 @@
         </div>
       </div>
     </div>
+
+      <!-- Book Card 1 -->
+  <div class="col">
+    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('book-cover-1.jpg');">
+      <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">The Midnight Library</h3>
+        <p class="mb-4">A thought-provoking exploration of regret, choices, and second chances.</p>
+        <ul class="d-flex list-unstyled mt-auto">
+          <li class="me-auto">
+            <img src="https://via.placeholder.com/32" alt="Author" width="32" height="32" class="rounded-circle border border-white">
+          </li>
+          <li class="d-flex align-items-center me-3">
+            <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#star-fill"></use></svg>
+            <small>⭐⭐⭐⭐☆</small>
+          </li>
+          <li class="d-flex align-items-center">
+            <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
+            <small>Jan 2023</small>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
+
+    <!-- Book Card 1 -->
+    <div class="col">
+      <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('book-cover-1.jpg');">
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">The Midnight Library</h3>
+          <p class="mb-4">A thought-provoking exploration of regret, choices, and second chances.</p>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img src="https://via.placeholder.com/32" alt="Author" width="32" height="32" class="rounded-circle border border-white">
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#star-fill"></use></svg>
+              <small>⭐⭐⭐⭐☆</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
+              <small>Jan 2023</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>
+
 <%- include('partials/footer.ejs'); -%>
