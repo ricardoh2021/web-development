@@ -1,10 +1,12 @@
-# Webpack 
+# Webpack
+public/js/
+public/css
+public/css/main.css
+public/css/main.css.map
 
-dist/
-public/**/*.js
-public/**/*.css
-public/**/*.map
+# Node.js
+node_modules/
+package-lock.json
 
+# Cache
 .cache/
-
-node_modules
