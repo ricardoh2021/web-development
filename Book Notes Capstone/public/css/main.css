@@ -25,7 +25,7 @@
 }
 
 .hero-section {
-  background-image: url(6a62e3440d654505ff8f.jpg);
+  background-image: url(../6a62e3440d654505ff8f.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -47,6 +47,12 @@
 .hero-section > * {
   position: relative;
   z-index: 2;
+}
+@media (min-width: 768px) {
+  .hero-section {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .book-card {

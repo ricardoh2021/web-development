@@ -1,3 +1,10 @@
+// Define Bootstrap breakpoints as variables
+$sm-breakpoint: 576px;
+$md-breakpoint: 768px;
+$lg-breakpoint: 992px;
+$xl-breakpoint: 1200px;
+$xxl-breakpoint: 1400px;
+
 /* Ensure the navbar stays fixed at the top */
 .navbar {
   position: absolute !important;
@@ -46,6 +53,12 @@
   & > * {
     position: relative;
     z-index: 2;
+  }
+
+  // Apply styles for large screens (lg breakpoint)
+  @media (min-width: $md-breakpoint) {
+    display: flex;
+    align-items: center;
   }
 }
 
