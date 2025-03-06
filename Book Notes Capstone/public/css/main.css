@@ -9,19 +9,28 @@
   width: 100%;
   z-index: 1050;
 }
-
-.nav-link {
+.navbar.expanded {
+  background-color: rgba(0, 0, 0, 0.85); /* Add your desired color with transparency */
+  flex-direction: column;
+  height: 100vh;
+}
+.navbar .nav-link {
   color: white !important;
   transition: transform 0.25s ease-in-out;
 }
-.nav-link:hover {
+.navbar .nav-link:hover {
   opacity: 0.8;
   transform: scale(1.05);
 }
-
-.nav-item {
+.navbar .nav-item {
   font-size: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+@media (max-width: 768px) {
+  .navbar .nav-item {
+    font-size: 2rem;
+    margin: 1.5rem 0;
+  }
 }
 
 .hero-section {
@@ -61,6 +70,21 @@
   width: 100%; /* Make the card responsive */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents the image from repeating */
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+hr {
+  margin: 0 auto !important;
+  width: 75%;
+  border-top: 2px solid white !important;
+}
+@media (min-width: 768px) {
+  hr {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=main.css.map*/

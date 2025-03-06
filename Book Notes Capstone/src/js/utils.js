@@ -48,10 +48,23 @@ function setupNavbarToggler() {
     });
 }
 
+
 document.addEventListener("DOMContentLoaded", setupNavbarToggler);
 
 // Run theme check on page load
 document.addEventListener("DOMContentLoaded", loadTheme);
+
+$(document).ready(function () {
+    // Select the navbar toggler and the body element
+    const $navbarToggler = $('#navbar-toggler')
+    const $body = $('body');
+
+    // Toggle 'no-scroll' class on the body when the button is clicked
+    $navbarToggler.on('click', function () {
+        console.log("swag");
+        $body.toggleClass('no-scroll');  // Toggle the 'no-scroll' class on the body
+    });
+});
 
 // Expose the function to be used in HTML buttons
 window.toggleTheme = toggleTheme;
