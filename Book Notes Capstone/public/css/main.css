@@ -2177,4 +2177,19 @@ hr {
   }
 }
 
+.isbn-note {
+  font-size: 0.9em;
+  color: gray;
+  margin-top: 4px;
+}
+
+.isbn-note a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.isbn-note a:hover {
+  text-decoration: underline;
+}
+
 /*# sourceMappingURL=main.css.map*/

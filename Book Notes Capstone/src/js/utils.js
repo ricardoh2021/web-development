@@ -4,12 +4,6 @@ function setTheme(theme) {
     localStorage.setItem("theme", theme);
 }
 
-// Function to toggle between light and dark mode
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute("data-bs-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-}
 
 // Function to load theme on page load
 function loadTheme() {
@@ -164,6 +158,26 @@ $(document).ready(function () {
     });
 });
 
-// Expose the function to be used in HTML buttons
-window.toggleTheme = toggleTheme;
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+
+
+
 

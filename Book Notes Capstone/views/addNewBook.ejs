@@ -1,57 +1,40 @@
 <%- include('partials/header.ejs'); -%>
 
-<div class="hero-section px-4 pb-5 mb-5 text-center" >
+<div class="hero-section note px-4 pb-5 mb-5 text-center" >
   <h1 class="display-5 fw-bold py-5">Adding a new book</h1>
   <div class="col-lg-6 mx-auto">
     <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
       <button type="button" class="btn btn-dark btn-lg px-4 gap-3">Primary button</button>
       <button type="button" class="btn btn-light btn-lg px-4">Secondary</button>
-      <button onclick="toggleTheme()" class="btn btn-secondary">Toggle Theme</button>
     </div>
   </div>
 </div>
 
 <div class="container">
-  <form class="row g-3">
+  <form class="row g-3 needs-validation" novalidate>
     <div class="col-md-6">
-      <label for="inputEmail4" class="form-label">Emaiel</label>
-      <input type="email" class="form-control" id="inputEmail4">
-    </div>
-    <div class="col-md-6">
-      <label for="inputPassword4" class="form-label">Password</label>
-      <input type="password" class="form-control" id="inputPassword4">
-    </div>
-    <div class="col-12">
-      <label for="inputAddress" class="form-label">Address</label>
-      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-    </div>
-    <div class="col-12">
-      <label for="inputAddress2" class="form-label">Address 2</label>
-      <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-    </div>
-    <div class="col-md-6">
-      <label for="inputCity" class="form-label">City</label>
-      <input type="text" class="form-control" id="inputCity">
-    </div>
-    <div class="col-md-4">
-      <label for="inputState" class="form-label">State</label>
-      <select id="inputState" class="form-select">
-        <option selected>Choose...</option>
-        <option>...</option>
-      </select>
-    </div>
-    <div class="col-md-2">
-      <label for="inputZip" class="form-label">Zip</label>
-      <input type="text" class="form-control" id="inputZip">
-    </div>
-    <div class="col-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck">
-        <label class="form-check-label" for="gridCheck">
-          Check me out
-        </label>
+      <label for="inputTitle" class="form-label">Title</label>
+      <input type="title" class="form-control" id="inputTitle" required>
+      <div class="invalid-feedback">
+        Please enter a book title.
       </div>
+    </div>
+    <div class="col-md-6">
+      <label for="inputISBN" class="form-label">ISBN-10</label>
+      <input type="isbn" class="form-control" id="inputISBN" maxlength="10" pattern="\d{9}[\dXx]" required>
+      <p class="isbn-note">
+        Enter a valid 10-character ISBN. Need help?  
+        <a href="https://isbnsearch.org/" target="_blank" rel="noopener noreferrer">Search for ISBN here</a>.
+      </p>
+      <div class="invalid-feedback">
+        Please enter a valid ISBN-10. It must be exactly 10 characters long.
+      </div>
+  
+    </div>
+    <div class="col-12">
+      <label for="exampleFormControlTextarea1" class="form-label">Book Notes (Optional)</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>    
     </div>
     <div class="col-12">
       <button type="submit" class="btn btn-primary">Sign in</button>
