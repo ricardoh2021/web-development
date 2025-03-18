@@ -1,3 +1,5 @@
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
 // Define Bootstrap breakpoints as variables
 $sm-breakpoint: 576px;
 $md-breakpoint: 768px;
@@ -41,12 +43,15 @@ $xxl-breakpoint: 1400px;
     @media (max-width: $md-breakpoint) {
       font-size: 2rem;
       margin: 1.5rem 0;
+
+      &.dropdown {
+        display: none;
+      }
     }
   }
 }
 
 .hero-section {
-  background-image: url("../../public/assets/images/books.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -54,6 +59,10 @@ $xxl-breakpoint: 1400px;
   position: relative;
   z-index: 1;
   height: 75vh;
+
+  &.home {
+    background-image: url("../../public/assets/images/books.jpg");
+  }
 
   &::before {
     content: "";

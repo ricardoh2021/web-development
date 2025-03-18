@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import axios from 'axios';
 
 
 const app = express();
@@ -19,6 +20,14 @@ app.get('/', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+app.get('/new-book', async (req, res) => {
+    try {
+        res.render("addNewBook.ejs");
+    } catch (error) {
+        console.error("Could not add a new book");
+    }
+})
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

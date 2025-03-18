@@ -3,7 +3,8 @@ public/js/
 public/css
 public/css/main.css
 public/css/main.css.map
-
+/public/*.woff
+/public/*.woff2
 # Node.js
 node_modules/
 package-lock.json
