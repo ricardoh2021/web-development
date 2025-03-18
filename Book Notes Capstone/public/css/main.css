@@ -2130,6 +2130,9 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
 .hero-section.home {
   background-image: url(../6a62e3440d654505ff8f.jpg);
 }
+.hero-section.note {
+  background-image: url(../a8e1a3b4905fead3d71f.jpg);
+}
 .hero-section::before {
   content: "";
   position: absolute;

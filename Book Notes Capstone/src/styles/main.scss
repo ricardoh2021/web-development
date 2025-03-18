@@ -63,6 +63,9 @@ $xxl-breakpoint: 1400px;
   &.home {
     background-image: url("../../public/assets/images/books.jpg");
   }
+  &.note {
+    background-image: url("../../public/assets/images/note_taking.jpg");
+  }
 
   &::before {
     content: "";
