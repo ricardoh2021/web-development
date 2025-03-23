@@ -1,23 +1,3 @@
-// Function to set theme based on user preference
-function setTheme(theme) {
-    document.documentElement.setAttribute("data-bs-theme", theme);
-    localStorage.setItem("theme", theme);
-}
-
-
-// Function to load theme on page load
-function loadTheme() {
-    const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme) {
-        setTheme(savedTheme);
-    } else {
-        // Auto-detect system preference
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        setTheme(prefersDark ? "dark" : "light");
-    }
-}
-
 function setupNavbarToggler() {
     const navbar = document.querySelector(".navbar");
     const navbarToggler = document.querySelector(".navbar-toggler");
@@ -30,7 +10,6 @@ function setupNavbarToggler() {
 
     navbarToggler.addEventListener("click", function () {
         if (navbarCollapse.classList.contains("show")) {
-            console.log("Hello Show");
             navbar.classList.remove("expanded");
         } else {
             navbar.classList.add("expanded");
@@ -44,9 +23,6 @@ function setupNavbarToggler() {
 
 
 document.addEventListener("DOMContentLoaded", setupNavbarToggler);
-
-// Run theme check on page load
-document.addEventListener("DOMContentLoaded", loadTheme);
 
 /*!
  * Color mode toggler for Bootstrap's docs (https://getbootstrap.com/)
@@ -153,7 +129,6 @@ $(document).ready(function () {
 
     // Toggle 'no-scroll' class on the body when the button is clicked
     $navbarToggler.on('click', function () {
-        console.log("swag");
         $body.toggleClass('no-scroll');  // Toggle the 'no-scroll' class on the body
     });
 });

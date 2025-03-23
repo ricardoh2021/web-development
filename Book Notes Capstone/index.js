@@ -23,7 +23,7 @@ app.get('/', async (req, res) => {
 
 app.get('/new-book', async (req, res) => {
     try {
-        res.render("addNewBook.ejs");
+        res.render("addNewBook.ejs", { loadDatepicker: true });
     } catch (error) {
         console.error("Could not add a new book");
     }

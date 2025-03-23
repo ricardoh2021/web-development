@@ -10,6 +10,8 @@ export default {
     entry: {
         main: "./src/styles/main.scss", // SCSS entry point
         utils: "./src/js/utils.js",    // JavaScript entry point
+        datepicker: "./src/js/datepicker.js",    // JavaScript entry point
+
     },
     output: {
         path: path.resolve(__dirname, "public"),
@@ -20,6 +22,10 @@ export default {
             {
                 test: /\.scss$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+            },
+            {
+                test: /\.css$/, // ✅ Add this rule for handling CSS files
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
             },
             {
                 test: /\.js$/, // Rule for JavaScript files

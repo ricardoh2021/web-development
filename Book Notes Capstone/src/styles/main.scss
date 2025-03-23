@@ -43,10 +43,6 @@ $xxl-breakpoint: 1400px;
     @media (max-width: $md-breakpoint) {
       font-size: 2rem;
       margin: 1.5rem 0;
-
-      &.dropdown {
-        display: none;
-      }
     }
   }
 }

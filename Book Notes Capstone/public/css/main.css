@@ -2113,9 +2113,6 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
     font-size: 2rem;
     margin: 1.5rem 0;
   }
-  .navbar .nav-item.dropdown {
-    display: none;
-  }
 }
 
 .hero-section {
