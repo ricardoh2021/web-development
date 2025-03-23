@@ -177,7 +177,3 @@ $(document).ready(function () {
         }, false)
     })
 })()
-
-
-
-
