@@ -29,6 +29,8 @@
     "autoprefixer": "^10.4.20",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
+    "ejs-webpack-plugin": "^1.0.0",
+    "html-webpack-plugin": "^5.6.3",
     "mini-css-extract-plugin": "^2.9.2",
     "nodemon": "^3.1.9",
     "postcss": "^8.5.1",

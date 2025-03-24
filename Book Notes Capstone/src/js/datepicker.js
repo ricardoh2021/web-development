@@ -1,33 +1,21 @@
-// import "flatpickr/dist/flatpickr.min.css";
+// Import Flatpickr styles (ensures Webpack bundles them)
+import 'flatpickr/dist/flatpickr.min.css';
+import flatpickr from "flatpickr";
 
-// function initFlatpickr() {
-//     const dateInputs = document.querySelectorAll("#datepicker");
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Flatpickr script loaded!");
 
-//     if (dateInputs.length > 0) {
-//         console.log("Initializing Flatpickr... Found", dateInputs.length, "date fields.");
+    // Select all inputs with class .datepicker
+    const datepickers = document.querySelectorAll("#datepicker");
 
-//         import("flatpickr").then(({ default: flatpickr }) => {
-//             dateInputs.forEach(input => {
-//                 if (!input.dataset.flatpickr) { // Prevent re-initialization
-//                     console.log("Applying Flatpickr to:", input);
-
-//                     try {
-//                         flatpickr(input, {
-//                             dateFormat: "m/d/Y",
-//                             allowInput: true,
-//                         });
-//                         input.dataset.flatpickr = true;
-//                     } catch (error) {
-//                         console.error("Error initializing Flatpickr:", error);
-//                     }
-//                 }
-//             });
-//         }).catch(error => {
-//             console.error("Error importing Flatpickr:", error);
-//         });
-//     } else {
-//         console.warn("No datepicker elements found.");
-//     }
-// }
-
-// document.addEventListener("DOMContentLoaded", initFlatpickr);
+    if (datepickers.length > 0) {
+        console.log(`Initializing Flatpickr on ${datepickers.length} elements`);
+        flatpickr("#datepicker", {
+            altInput: true,
+            altFormat: "F j, Y",
+            dateFormat: "Y-m-d",
+        });
+    } else {
+        console.warn("No datepicker elements found.");
+    }
+});
