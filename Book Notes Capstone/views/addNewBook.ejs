@@ -14,6 +14,10 @@
 <div class="container">
   <form class="row g-3 needs-validation" novalidate>
     <div class="col-md-6">
+      <label for="datepicker" class="form-label">Date Read</label>
+      <input class="form-control" id="datepicker" placeholder="Select Date.." required>
+    </div>
+    <div class="col-md-6">
       <label for="inputTitle" class="form-label">Title</label>
       <input type="title" class="form-control" id="inputTitle" required>
       <div class="invalid-feedback">
@@ -35,10 +39,6 @@
     <div class="col-12 pb-4">
       <label for="exampleFormControlTextarea1" class="form-label">Book Notes (Optional)</label>
       <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>    
-    </div>
-    <div class="col-4">
-      <label for="datepicker" class="form-label">Date Read</label>
-      <input class="form-control" id="datepicker" placeholder="Select Date.." type="date" required>
     </div>
     <div class="col-12">
       <button type="submit" class="btn btn-primary">Sign in</button>
