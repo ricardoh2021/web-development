@@ -9,6 +9,7 @@ $(document).ready(function () {
         altInput: true,
         altFormat: "F j, Y",
         dateFormat: "Y-m-d",
+        maxDate: 'today',
         onClose: function (_, dateStr, instance) {
             updateInputValidity(instance.input, instance.altInput, dateStr);
         }
