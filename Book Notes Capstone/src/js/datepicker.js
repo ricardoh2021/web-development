@@ -2,73 +2,40 @@
 import 'flatpickr/dist/flatpickr.min.css';
 import flatpickr from "flatpickr";
 
-// document.addEventListener("DOMContentLoaded", () => {
-//     console.log("Flatpickr script loaded!");
-
-//     // Select all inputs with class .datepicker
-//     const datepickers = document.querySelectorAll("#datepicker");
-
-//     if (datepickers.length > 0) {
-//         console.log(`Initializing Flatpickr on ${datepickers.length} elements`);
-//         flatpickr("#datepicker", {
-//             altInput: true,
-//             altFormat: "F j, Y",
-//             dateFormat: "Y-m-d",
-//             onClose: function (_, dateStr, instance) {
-//                 let inputField = instance.input;
-//                 if (!dateStr) {
-//                     inputField.classList.add("is-invalid");
-//                     inputField.classList.remove("is-valid");
-//                 } else {
-//                     inputField.classList.add("is-valid");
-//                     inputField.classList.remove("is-invalid");
-//                 }
-//             }
-//         });
-//     } else {
-//         console.warn("No datepicker elements found.");
-//     }
-// });
-
 $(document).ready(function () {
-    $('#datepicker').flatpickr(
-        {
-            altInput: true,
-            altFormat: "F j, Y",
-            dateFormat: "Y-m-d",
-            onClose: function (_, dateStr, instance) {
-                let $inputField = $(instance.input);
-                let $altInputField = $(instance.altInput); // Flatpickr's alternative input
-                if (!dateStr) {
-                    $inputField.addClass("is-invalid").removeClass("is-valid");
-                    $altInputField.addClass("is-invalid").removeClass("is-valid");
-                }
-                else {
-                    $inputField.addClass("is-valid").removeClass("is-invalid")
-                    $altInputField.addClass("is-valid").removeClass("is-invalid")
-                }
-            }
+    // Initialize flatpickr
+    const $datepicker = $('#datepicker');
+    const datepickerInstance = $datepicker.flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        onClose: function (_, dateStr, instance) {
+            updateInputValidity(instance.input, instance.altInput, dateStr);
         }
-    )
-})
+    });
 
-$(document).ready(function () {
+    // Form submission handler
     $("form").on("submit", function (event) {
-        //Check the flatpickr
-        let $inputField = $("#datepicker");
-        let $altInputField = $inputField.siblings(".form-control"); // Alt input
-        console.log($inputField.val());
-        console.log($inputField);
-        console.log($altInputField);
+        const isValid = !!$datepicker.val().trim();
+        updateInputValidity($datepicker[0], $datepicker.siblings(".form-control")[0], isValid);
 
-        if (!$inputField.val().trim()) {
-            $inputField.addClass("is-invalid").removeClass("is-valid");
-            $altInputField.addClass("is-invalid").removeClass("is-valid");
-            event.preventDefault(); // Stop form submission
+        if (!isValid) {
+            event.preventDefault();
         }
-        else {
-            $inputField.addClass("is-valid").removeClass("is-invalid");
-            $altInputField.addClass("is-valid").removeClass("is-invalid");
+    });
+
+    // Shared function to update input validity
+    function updateInputValidity(inputElement, altInputElement, isValid) {
+        const $input = $(inputElement);
+        const $altInput = $(altInputElement);
+        const hasValue = typeof isValid === 'string' ? !!isValid : isValid;
+
+        if (hasValue) {
+            $input.addClass("is-valid").removeClass("is-invalid");
+            $altInput.addClass("is-valid").removeClass("is-invalid");
+        } else {
+            $input.addClass("is-invalid").removeClass("is-valid");
+            $altInput.addClass("is-invalid").removeClass("is-valid");
         }
-    })
-})
+    }
+});
