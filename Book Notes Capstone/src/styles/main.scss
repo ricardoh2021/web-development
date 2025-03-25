@@ -121,3 +121,84 @@ hr {
 .isbn-note a:hover {
   text-decoration: underline;
 }
+
+.book-rating {
+  $star-size: 2.5rem;
+  $active-color: #ffc107;
+  $inactive-color: #dee2e6;
+  $transition-speed: 0.15s;
+
+  .stars {
+    display: inline-flex;
+    height: $star-size;
+  }
+
+  .star-wrapper {
+    position: relative;
+    width: $star-size;
+    height: $star-size;
+    margin: 0 0.1rem;
+    cursor: pointer;
+
+    i {
+      position: absolute;
+      font-size: $star-size;
+      transition: all $transition-speed ease;
+      left: 0;
+      opacity: 0;
+
+      &.empty-star {
+        color: $inactive-color;
+        opacity: 1;
+      }
+    }
+  }
+
+  /* Half-star hover effect */
+  .star-wrapper.hover-half {
+    .half-star {
+      opacity: 1;
+      color: rgba($active-color, 0.6);
+    }
+    .full-star {
+      opacity: 0;
+    }
+  }
+
+  /* Full-star hover effect */
+  .star-wrapper.hover-full {
+    .full-star {
+      opacity: 1;
+      color: rgba($active-color, 0.6);
+    }
+  }
+
+  /* Selected states */
+  .star-wrapper.selected-half {
+    .half-star {
+      opacity: 1;
+      color: $active-color;
+      animation: starPulse $transition-speed;
+    }
+  }
+
+  .star-wrapper.selected-full {
+    .full-star {
+      opacity: 1;
+      color: $active-color;
+      animation: starPulse $transition-speed;
+    }
+  }
+
+  @keyframes starPulse {
+    0% {
+      transform: scale(0.9);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}

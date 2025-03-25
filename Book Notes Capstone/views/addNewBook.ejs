@@ -13,18 +13,14 @@
 
 <div class="container">
   <form class="row g-3 needs-validation" novalidate>
-    <div class="col-md-6">
-      <label for="datepicker" class="form-label">Date Read</label>
-      <input class="form-control" id="datepicker" placeholder="Select Date.." required>
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
       <label for="inputTitle" class="form-label">Title</label>
       <input type="title" class="form-control" id="inputTitle" required>
       <div class="invalid-feedback">
         Please enter a book title.
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
       <label for="inputISBN" class="form-label">ISBN-10</label>
       <input type="isbn" class="form-control" id="inputISBN" maxlength="10" pattern="\d{9}[\dXx]" required>
       <p class="isbn-note">
@@ -34,11 +30,36 @@
       <div class="invalid-feedback">
         Please enter a valid ISBN-10. It must be exactly 10 characters long.
       </div>
-  
+    </div>
+    <div class="col-md-3">
+      <label for="datepicker" class="form-label">Date Read</label>
+      <input class="form-control" id="datepicker" placeholder="Select Date.." required>
+      <div class="invalid-feedback">
+        Please enter a date.
+      </div>
     </div>
     <div class="col-12 pb-4">
       <label for="exampleFormControlTextarea1" class="form-label">Book Notes (Optional)</label>
       <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>    
+    </div>
+    <div class="col-12">
+      <label class="form-label">Your Rating (Optional)</label>
+      <div class="book-rating mb-3">
+        <div class="stars">
+          <% [1, 2, 3, 4, 5].forEach((star) => { %>
+            <div class="star-wrapper" data-rating="<%= star %>">
+              <i class="far fa-star empty-star"></i>
+              <i class="fas fa-star-half-alt half-star"></i>
+              <i class="fas fa-star full-star"></i>
+            </div>
+          <% }) %>
+        </div>
+        <input type="hidden" class="form-control" name="book_rating" id="bookRating" value="0" required>
+        <div class="rating-feedback text-muted">Select your rating (click left/right side of star for half points)</div>
+        <div class="invalid-feedback">
+          Please select a rating.
+        </div>
+      </div>
     </div>
     <div class="col-12">
       <button type="submit" class="btn btn-primary">Sign in</button>

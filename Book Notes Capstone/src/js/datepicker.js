@@ -39,4 +39,78 @@ $(document).ready(function () {
             $altInput.addClass("is-invalid").removeClass("is-valid");
         }
     }
+
+    const $stars = $('.star-wrapper');
+    const $ratingInput = $('#bookRating');
+    let currentHover = 0;
+    let selectedRating = 0;
+
+    // Handle star hover
+    $stars.on('mousemove', function (e) {
+        const $star = $(this);
+        const starPos = e.pageX - $star.offset().left;
+        const starWidth = $star.width();
+        const starValue = parseFloat($star.data('rating'));
+
+        // Determine if hovering left (half) or right (full) side
+        const isHalfHover = starPos < starWidth / 2;
+        currentHover = isHalfHover ? starValue - 0.5 : starValue;
+
+        updateHoverDisplay();
+    });
+
+    $stars.on('mouseleave', function () {
+        currentHover = 0;
+        updateHoverDisplay();
+    });
+
+    // Handle star click
+    $stars.on('click', function (e) {
+        const $star = $(this);
+        const starPos = e.pageX - $star.offset().left;
+        const starWidth = $star.width();
+        const starValue = parseFloat($star.data('rating'));
+
+        selectedRating = starPos < starWidth / 2 ? starValue - 0.5 : starValue;
+        $ratingInput.val(selectedRating);
+        updateSelectedDisplay();
+    });
+
+    function updateHoverDisplay() {
+        $stars.removeClass('hover-half hover-full');
+
+        if (currentHover > 0) {
+            $stars.each(function () {
+                const starValue = parseFloat($(this).data('rating'));
+
+                if (starValue <= currentHover) {
+                    $(this).addClass('hover-full');
+                }
+                else if (starValue - 0.5 <= currentHover) {
+                    $(this).addClass('hover-half');
+                }
+            });
+        }
+    }
+
+    function updateSelectedDisplay() {
+        $stars.removeClass('selected-half selected-full');
+
+        $stars.each(function () {
+            const starValue = parseFloat($(this).data('rating'));
+
+            if (starValue <= selectedRating) {
+                $(this).addClass('selected-full');
+            }
+            else if (starValue - 0.5 <= selectedRating) {
+                $(this).addClass('selected-half');
+            }
+        });
+
+        // Update feedback text
+        const feedbackText = selectedRating > 0
+            ? `Your rating: ${selectedRating.toFixed(1)} stars`
+            : "Hover and click on left/right side of stars";
+        $('.rating-feedback').text(feedbackText);
+    }
 });
