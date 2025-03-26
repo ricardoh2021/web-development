@@ -93,6 +93,32 @@ $(document).ready(function () {
         }
     }
 
+    function feedbackTextBasedOnRating(rating) {
+        const feedbackText = "Hover and click on left/right side of stars";
+
+        const ratings = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+
+        const feedbackMessages = {
+            0.5: "You wasted your time. Learn from this failure. Adapt. Move on. 📉",
+            1: "That book broke you, but you ain’t staying down. Find a better one. 🔥",
+            1.5: "You forced yourself to finish, but was it worth it? Demand more. 🏋️",
+            2: "Mediocre effort. You don’t settle for average—why should your books? ⚔️",
+            2.5: "Halfway decent, but halfway doesn’t cut it in life. Keep pushing. 🚀",
+            3: "Solid, but solid isn’t greatness. What did you LEARN? Apply it. 📖",
+            3.5: "This book had value, but don’t just read—EXECUTE. Get after it. 🔥",
+            4: "That was strong! Take the lessons and make them count. No excuses. 💯",
+            4.5: "Great book! But greatness demands ACTION. Don’t just read—LIVE IT. 🚀",
+            5: "This book is a WEAPON. If you don’t use what you learned, you wasted it. GO! 🔥💪",
+        };
+
+        if (ratings.includes(rating)) {
+            $('.rating-feedback').text(`Rating: ${rating}: ${feedbackMessages[rating]}`);
+        }
+        else {
+            $('.rating-feedback').text(feedbackMessages[rating]);
+        }
+    }
+
     function updateSelectedDisplay() {
         $stars.removeClass('selected-half selected-full');
 
@@ -108,9 +134,6 @@ $(document).ready(function () {
         });
 
         // Update feedback text
-        const feedbackText = selectedRating > 0
-            ? `Your rating: ${selectedRating.toFixed(1)} stars`
-            : "Hover and click on left/right side of stars";
-        $('.rating-feedback').text(feedbackText);
+        feedbackTextBasedOnRating(selectedRating);
     }
 });
