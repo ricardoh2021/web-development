@@ -42,22 +42,22 @@ $(document).ready(function () {
 
     const $stars = $('.star-wrapper');
     const $ratingInput = $('#bookRating');
-    let currentHover = 0;
-    let selectedRating = 0;
+    let currentHover = 0; // The current hover rating. THis will be used to check if currently hovering or not.
+    let selectedRating = 0; //The selected rating when clicked
 
-    // Handle star hover
-    $stars.on('mousemove', function (e) {
+    $stars.on("mousemove", function (e) {
         const $star = $(this);
         const starPos = e.pageX - $star.offset().left;
         const starWidth = $star.width();
-        const starValue = parseFloat($star.data('rating'));
+        const starValue = $star.data("rating");
 
-        // Determine if hovering left (half) or right (full) side
-        const isHalfHover = starPos < starWidth / 2;
-        currentHover = isHalfHover ? starValue - 0.5 : starValue;
+        //Determin if half of star or not. 
+        const isHalfStar = starPos < starWidth / 2;
+        currentHover = isHalfStar ? starValue - 0.5 : starValue;
 
         updateHoverDisplay();
-    });
+
+    })
 
     $stars.on('mouseleave', function () {
         currentHover = 0;
@@ -77,19 +77,21 @@ $(document).ready(function () {
     });
 
     function updateHoverDisplay() {
-        $stars.removeClass('hover-half hover-full');
-
+        // •	Remove previous classes.
+        $stars.removeClass("hover-half hover-full");
+        // •	Check if hovering.
         if (currentHover > 0) {
             $stars.each(function () {
-                const starValue = parseFloat($(this).data('rating'));
+                const starValue = parseFloat($(this).data("rating"));
 
                 if (starValue <= currentHover) {
-                    $(this).addClass('hover-full');
+                    $(this).addClass("hover-full");
                 }
-                else if (starValue - 0.5 <= currentHover) {
-                    $(this).addClass('hover-half');
+                else if (starValue - 0.5 === currentHover) {
+                    $(this).addClass("hover-half");
+
                 }
-            });
+            })
         }
     }
 
@@ -128,7 +130,7 @@ $(document).ready(function () {
             if (starValue <= selectedRating) {
                 $(this).addClass('selected-full');
             }
-            else if (starValue - 0.5 <= selectedRating) {
+            else if (starValue - 0.5 === selectedRating) {
                 $(this).addClass('selected-half');
             }
         });
