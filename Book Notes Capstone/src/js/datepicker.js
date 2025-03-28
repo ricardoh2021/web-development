@@ -47,7 +47,6 @@ $(document).ready(function () {
 
     $stars.on("mousemove", function (e) {
         const $star = $(this);
-        console.log($star);
         const starPos = e.pageX - $star.offset().left;
         const starWidth = $star.width();
         const starValue = $star.data("rating");
