@@ -5,6 +5,11 @@ import flatpickr from "flatpickr";
 $(document).ready(function () {
     // Initialize flatpickr
     const $datepicker = $('#datepicker');
+    const $stars = $('.star-wrapper');
+    const $ratingInput = $('#bookRating');
+    let currentHover = 0; // The current hover rating. THis will be used to check if currently hovering or not.
+    let selectedRating = 0; //The selected rating when clicked
+
     const datepickerInstance = $datepicker.flatpickr({
         altInput: true,
         altFormat: "F j, Y",
@@ -40,13 +45,9 @@ $(document).ready(function () {
         }
     }
 
-    const $stars = $('.star-wrapper');
-    const $ratingInput = $('#bookRating');
-    let currentHover = 0; // The current hover rating. THis will be used to check if currently hovering or not.
-    let selectedRating = 0; //The selected rating when clicked
-
     $stars.on("mousemove", function (e) {
         const $star = $(this);
+        console.log($star);
         const starPos = e.pageX - $star.offset().left;
         const starWidth = $star.width();
         const starValue = $star.data("rating");
@@ -117,7 +118,7 @@ $(document).ready(function () {
             $('.rating-feedback').text(`Rating: ${rating}: ${feedbackMessages[rating]}`);
         }
         else {
-            $('.rating-feedback').text(feedbackMessages[rating]);
+            $('.rating-feedback').text(feedbackText);
         }
     }
 
