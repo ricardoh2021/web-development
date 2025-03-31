@@ -12,18 +12,21 @@
 </div>
 
 <div class="container">
-  <form class="row g-3 needs-validation" novalidate>
+  <form class="row g-3 needs-validation" novalidate action="/addBook" method="POST">
     <div class="col-md-5">
       <label for="inputTitle" class="form-label">Title</label>
-      <input type="title" class="form-control" id="inputTitle" required>
+      <input type="title" class="form-control" id="inputTitle" name="title" required>
+      <p class="form-note">
+        Enter the full title of the book.
+      </p>
       <div class="invalid-feedback">
         Please enter a book title.
       </div>
     </div>
     <div class="col-md-4">
       <label for="inputISBN" class="form-label">ISBN-10</label>
-      <input type="isbn" class="form-control" id="inputISBN" maxlength="10" pattern="\d{9}[\dXx]" required>
-      <p class="isbn-note">
+      <input type="isbn" class="form-control" name="isbn" id="inputISBN" maxlength="10" pattern="\d{9}[\dXx]" required>
+      <p class="form-note">
         Enter a valid 10-character ISBN. Need help?  
         <a href="https://isbnsearch.org/" target="_blank" rel="noopener noreferrer">Search for ISBN here</a>.
       </p>
@@ -33,14 +36,17 @@
     </div>
     <div class="col-md-3">
       <label for="datepicker" class="form-label">Date Read</label>
-      <input class="form-control" id="datepicker" placeholder="Select Date.." required>
+      <input class="form-control" id="datepicker" placeholder="Select Date.." required name="date">
+      <p class="form-note">
+        Select the date you finished reading the book.  
+      </p>
       <div class="invalid-feedback">
         Please enter a date.
       </div>
     </div>
     <div class="col-12 pb-4">
       <label for="exampleFormControlTextarea1" class="form-label">Book Notes (Optional)</label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>    
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="note"></textarea>    
     </div>
     <div class="col-12">
       <label class="form-label">Your Rating (Optional)</label>
