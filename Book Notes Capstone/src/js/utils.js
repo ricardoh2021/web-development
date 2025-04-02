@@ -160,9 +160,14 @@ $(document).on('click', '.book-card', function () {
 
         // Scroll to card if opening
         if ($card.hasClass('mobile-expanded')) {
-            $('html, body').animate({
-                scrollTop: $card.offset().top - 20
-            }, 300);
+            const cardTop = $card.offset().top - 20;
+            $('html').css('scroll-behavior', 'smooth');
+            window.scrollTo(0, cardTop);
+
+            // Reset after scroll completes
+            setTimeout(() => {
+                $('html').css('scroll-behavior', 'auto');
+            }, 400);
         }
     }
 });
