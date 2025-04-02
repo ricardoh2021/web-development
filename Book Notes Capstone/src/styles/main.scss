@@ -86,13 +86,94 @@ $xxl-breakpoint: 1400px;
   }
 }
 
-.book-card {
-  background-size: cover; /* Ensures the image covers the card */
-  aspect-ratio: 1 / 1.618; /* Golden ratio */
-  width: 100%; /* Make the card responsive */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents the image from repeating */
+// books.scss
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
 
+.book-card {
+  perspective: 1200px;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px; // Adjust as needed
+
+  // Targets Bootstrap's card class
+  .card {
+    flex: 1;
+    transform-style: preserve-3d;
+    position: relative;
+    border: none; // Override Bootstrap default
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+
+    // Add depth effect
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.25);
+
+    // Front face - uses Bootstrap utility classes from HTML
+    &-front {
+      backface-visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: rotateY(0deg);
+      z-index: 2;
+      background-size: cover;
+
+      // Dark overlay adjustment
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      // Rating that won't flip
+      .rating {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 0.3rem 0.75rem;
+        border-radius: 20px;
+        transform: rotateY(0deg) translateZ(1px);
+        z-index: 3;
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-right: 0.25rem;
+        }
+      }
+    }
+
+    // Back face - uses Bootstrap utility classes from HTML
+    &-back {
+      backface-visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
+    }
+  }
+
+  // Flip on hover
+  &:hover .card {
+    transform: rotateY(180deg);
+  }
+
+  // Simulate thickness on the edges
   &::before {
     content: "";
     position: absolute;
@@ -100,8 +181,21 @@ $xxl-breakpoint: 1400px;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: -1;
+    border-radius: inherit;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .book-card {
+    .card {
+      &-back {
+        padding: 1rem !important;
+      }
+    }
   }
 }
 

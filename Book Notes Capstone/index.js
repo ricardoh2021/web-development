@@ -11,10 +11,50 @@ const port = 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+// In your route handler (e.g., app.js or booksController.js)
+const sampleBooks = [
+    {
+        id: 1,
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg',
+        title: 'Atomic Habits',
+        author: 'James Clear',
+        rating: '⭐⭐⭐⭐⭐',
+        dateRead: 'Mar 15, 2023',
+        notes: 'Fantastic book about building good habits and breaking bad ones. The 1% rule concept was particularly impactful.',
+        genre: 'Self-help',
+        pages: 320,
+        isFavorite: true
+    },
+    {
+        id: 2,
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/1612788203-L.jpg',
+        title: 'The Midnight Library',
+        author: 'Matt Haig',
+        rating: '⭐⭐⭐⭐☆',
+        dateRead: 'Jan 5, 2023',
+        notes: 'A beautiful exploration of regret and alternate lives. Made me appreciate my current path more deeply.',
+        genre: 'Fiction',
+        pages: 304,
+        isFavorite: false
+    },
+    {
+        id: 3,
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg',
+        title: 'The Alchemist',
+        author: 'Paulo Coelho',
+        rating: '⭐⭐⭐☆☆',
+        dateRead: 'Nov 20, 2022',
+        notes: 'Poetic fable about following your dreams. Somewhat repetitive but has memorable quotes.',
+        genre: 'Fantasy',
+        pages: 208,
+        isFavorite: true
+    }
+];
+
 app.get('/', async (req, res) => {
     try {
         // Send the respose
-        res.render("index.ejs");
+        res.render("index.ejs", { books: sampleBooks });
     } catch (error) {
         // Handle errors
         console.error(error);

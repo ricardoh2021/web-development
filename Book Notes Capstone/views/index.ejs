@@ -11,12 +11,9 @@
 </div>
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 align-items-stretch g-4 py-5 mx-5">
     <!-- Book Card 1 -->
-    <div class="col">
-      <div class="book-card card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative" style="background-image: url(https://covers.openlibrary.org/b/isbn/1612788203-L.jpg); background-size: cover; background-position: center;">
-        <!-- Dark Overlay -->
+      <!-- <div class="book-card card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative" style="background-image: url(https://covers.openlibrary.org/b/isbn/1612788203-L.jpg); background-size: cover; background-position: center;">
         <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
       
-        <!-- Content -->
         <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
           <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">The Midnight Library</h3>
           <p class="mb-4">A thought-provoking exploration of regret, choices, and second chances.</p>
@@ -34,100 +31,39 @@
             </li>
           </ul>
         </div>
-      </div>
-    </div>
+      </div> -->
+      <% books.forEach((book, index) => { %>
+        <div class="col">
+          <div class="book-card position-relative overflow-hidden rounded-4 shadow-lg h-100">
+            <div class="card h-100">
+              <!-- Front Face - Uses Bootstrap bg classes -->
+              <div class="card-front h-100 rounded-4" 
+                   style="background-image: url('<%= book.coverUrl %>'); background-blend-mode: overlay;">
+                <div class="rating d-flex align-items-center">
+                  <svg class="bi me-1" width="1em" height="1em" aria-hidden="true">
+                    <use xlink:href="#star-fill"></use>
+                  </svg>
+                  <span class="fw-semibold"><%= book.rating %></span>
+                </div>
+                <div class="card-body d-flex flex-column h-100 p-4 pb-3 text-white text-shadow-1 position-relative">
+                  <!-- Optional front content -->
+                </div>
+              </div>
+              
+              <!-- Back Face - Uses Bootstrap utility classes -->
+              <div class="card-back text-white h-100 rounded-4 p-4">
+                <h3 class="card-title fs-4 mb-3"><%= book.title %></h3>
+                <div class="notes flex-grow-1 mb-3"><%= book.notes %></div>
+                <div class="meta mt-auto small">
+                  <p class="mb-1">Read on: <strong><%= book.dateRead %></strong></p>
+                  <p class="mb-0">Author: <strong><%= book.author %></strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }); %>
   
-    <!-- Book Card 2 -->
-    <div class="col">
-      <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('book-cover-2.jpg');">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Atomic Habits</h3>
-          <p class="mb-4">A life-changing guide to building good habits and breaking bad ones.</p>
-          <ul class="d-flex list-unstyled mt-auto">
-            <li class="me-auto">
-              <img src="https://via.placeholder.com/32" alt="Author" width="32" height="32" class="rounded-circle border border-white">
-            </li>
-            <li class="d-flex align-items-center me-3">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#star-fill"></use></svg>
-              <small>⭐⭐⭐⭐⭐</small>
-            </li>
-            <li class="d-flex align-items-center">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-              <small>Mar 2023</small>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Book Card 3 -->
-    <div class="col">
-      <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('book-cover-3.jpg');">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Sapiens</h3>
-          <p class="mb-4">A fascinating dive into the history of humankind.</p>
-          <ul class="d-flex list-unstyled mt-auto">
-            <li class="me-auto">
-              <img src="https://via.placeholder.com/32" alt="Author" width="32" height="32" class="rounded-circle border border-white">
-            </li>
-            <li class="d-flex align-items-center me-3">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#star-fill"></use></svg>
-              <small>⭐⭐⭐⭐☆</small>
-            </li>
-            <li class="d-flex align-items-center">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-              <small>Jun 2023</small>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-      <!-- Book Card 1 -->
-  <div class="col">
-    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('book-cover-1.jpg');">
-      <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">The Midnight Library</h3>
-        <p class="mb-4">A thought-provoking exploration of regret, choices, and second chances.</p>
-        <ul class="d-flex list-unstyled mt-auto">
-          <li class="me-auto">
-            <img src="https://via.placeholder.com/32" alt="Author" width="32" height="32" class="rounded-circle border border-white">
-          </li>
-          <li class="d-flex align-items-center me-3">
-            <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#star-fill"></use></svg>
-            <small>⭐⭐⭐⭐☆</small>
-          </li>
-          <li class="d-flex align-items-center">
-            <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-            <small>Jan 2023</small>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-    <!-- Book Card 1 -->
-    <div class="col">
-      <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('book-cover-1.jpg');">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">The Midnight Library</h3>
-          <p class="mb-4">A thought-provoking exploration of regret, choices, and second chances.</p>
-          <ul class="d-flex list-unstyled mt-auto">
-            <li class="me-auto">
-              <img src="https://via.placeholder.com/32" alt="Author" width="32" height="32" class="rounded-circle border border-white">
-            </li>
-            <li class="d-flex align-items-center me-3">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#star-fill"></use></svg>
-              <small>⭐⭐⭐⭐☆</small>
-            </li>
-            <li class="d-flex align-items-center">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-              <small>Jan 2023</small>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
 </div>
 
 <%- include('partials/footer.ejs'); -%>
