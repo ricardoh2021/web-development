@@ -131,6 +131,48 @@ $(document).ready(function () {
     $navbarToggler.on('click', function () {
         $body.toggleClass('no-scroll');  // Toggle the 'no-scroll' class on the body
     });
+
+    // Lazy Loading
+    $(".lazy-load").each(function () {
+        const $this = $(this);
+        const imageUrl = $this.data("bg");
+
+        if (imageUrl) {
+            const img = new Image();
+            img.src = imageUrl;
+            img.onload = function () {
+                $this.css("background-image", `url('${imageUrl}')`).addClass("loaded");
+            };
+        }
+    });
+});
+
+// Mobile tap handler
+$(document).on('click', '.book-card', function () {
+    if (window.innerWidth <= 768) { // Mobile only
+        const $card = $(this);
+
+        // Toggle expanded state
+        $card.toggleClass('mobile-expanded');
+
+        // Close other expanded cards
+        $('.book-card').not($card).removeClass('mobile-expanded');
+
+        // Scroll to card if opening
+        if ($card.hasClass('mobile-expanded')) {
+            $('html, body').animate({
+                scrollTop: $card.offset().top - 20
+            }, 300);
+        }
+    }
+});
+
+// Desktop hover handler remains the same
+$(window).on('resize', function () {
+    // Reset mobile states when resizing to desktop
+    if (window.innerWidth > 768) {
+        $('.book-card').removeClass('mobile-expanded');
+    }
 });
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields

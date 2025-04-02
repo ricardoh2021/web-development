@@ -34,30 +34,42 @@
       </div> -->
       <% books.forEach((book, index) => { %>
         <div class="col">
-          <div class="book-card position-relative overflow-hidden rounded-4 shadow-lg h-100">
+          <div class="book-card position-relative overflow-hidden rounded-4 shadow-lg h-100"
+               data-book-id="<%= book.id %>">
             <div class="card h-100">
-              <!-- Front Face - Uses Bootstrap bg classes -->
-              <div class="card-front h-100 rounded-4" 
-                   style="background-image: url('<%= book.coverUrl %>'); background-blend-mode: overlay;">
+              <!-- Front Face -->
+              <div class="card-front h-100 rounded-4 lazy-load" 
+                   data-bg="<%= book.coverUrl %>" 
+                   style="background-blend-mode: overlay;">
                 <div class="rating d-flex align-items-center">
                   <svg class="bi me-1" width="1em" height="1em" aria-hidden="true">
                     <use xlink:href="#star-fill"></use>
                   </svg>
                   <span class="fw-semibold"><%= book.rating %></span>
                 </div>
-                <div class="card-body d-flex flex-column h-100 p-4 pb-3 text-white text-shadow-1 position-relative">
-                  <!-- Optional front content -->
-                </div>
               </div>
               
-              <!-- Back Face - Uses Bootstrap utility classes -->
-              <div class="card-back text-white h-100 rounded-4 p-4">
+              <!-- Back Face (hidden on mobile) -->
+              <div class="card-back text-white h-100 rounded-4 p-4 d-none d-md-block">
                 <h3 class="card-title fs-4 mb-3"><%= book.title %></h3>
                 <div class="notes flex-grow-1 mb-3"><%= book.notes %></div>
                 <div class="meta mt-auto small">
                   <p class="mb-1">Read on: <strong><%= book.dateRead %></strong></p>
                   <p class="mb-0">Author: <strong><%= book.author %></strong></p>
                 </div>
+              </div>
+              
+              <!-- Mobile Expandable Section -->
+              <div class="mobile-expand">
+                <h3 class="h5 mb-3"><%= book.title %></h3>
+                <div class="notes mb-3"><%= book.notes %></div>
+                <div class="meta small mb-3">
+                  <p class="mb-1">Read on: <strong><%= book.dateRead %></strong></p>
+                  <p class="mb-2">Author: <strong><%= book.author %></strong></p>
+                </div>
+                <a href="/books/<%= book.id %>" class="btn btn-sm btn-outline-light">
+                  View Full Notes
+                </a>
               </div>
             </div>
           </div>

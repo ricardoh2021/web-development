@@ -10,12 +10,22 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+// Static file caching middleware in Express
+app.use(express.static('public', {
+    maxAge: '30d', // Cache images for 30 days
+    setHeaders: function (res, path) {
+        if (path.endsWith('.jpg') || path.endsWith('.png') || path.endsWith('.webp')) {
+            res.set('Cache-Control', 'public, max-age=2592000'); // 30 days in seconds
+        }
+    },
+    etag: true
+}));
 
 // In your route handler (e.g., app.js or booksController.js)
 const sampleBooks = [
     {
         id: 1,
-        coverUrl: 'https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg',
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/0735211299-L.jpg',
         title: 'Atomic Habits',
         author: 'James Clear',
         rating: '⭐⭐⭐⭐⭐',
@@ -27,7 +37,7 @@ const sampleBooks = [
     },
     {
         id: 2,
-        coverUrl: 'https://covers.openlibrary.org/b/isbn/1612788203-L.jpg',
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/0525559477-L.jpg',
         title: 'The Midnight Library',
         author: 'Matt Haig',
         rating: '⭐⭐⭐⭐☆',
@@ -39,7 +49,7 @@ const sampleBooks = [
     },
     {
         id: 3,
-        coverUrl: 'https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg',
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/0062315005-L.jpg',
         title: 'The Alchemist',
         author: 'Paulo Coelho',
         rating: '⭐⭐⭐☆☆',
@@ -47,6 +57,90 @@ const sampleBooks = [
         notes: 'Poetic fable about following your dreams. Somewhat repetitive but has memorable quotes.',
         genre: 'Fantasy',
         pages: 208,
+        isFavorite: true
+    },
+    {
+        id: 4,
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/0307887898-L.jpg',
+        title: 'The Power of Habit',
+        author: 'Charles Duhigg',
+        rating: '⭐⭐⭐⭐⭐',
+        dateRead: 'Feb 10, 2023',
+        notes: 'Great insights into how habits work and how to change them. The Keystone Habit concept was very interesting.',
+        genre: 'Self-help',
+        pages: 400,
+        isFavorite: true
+    },
+    {
+        id: 5,
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/1471195201-L.jpg',
+        title: 'The Seven Habits of Highly Effective People',
+        author: 'Stephen R. Covey',
+        rating: '⭐⭐⭐⭐⭐',
+        dateRead: 'Apr 22, 2022',
+        notes: 'Timeless principles for personal and professional effectiveness. Found the concepts of "Circle of Influence" and "Sharpen the Saw" very helpful.',
+        genre: 'Self-help',
+        pages: 381,
+        isFavorite: true
+    },
+    {
+        id: 6,
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/0451524934-L.jpg',
+        title: '1984',
+        author: 'George Orwell',
+        rating: '⭐⭐⭐⭐⭐',
+        dateRead: 'Jul 15, 2021',
+        notes: 'A chilling dystopian novel that feels more relevant than ever. The concept of Big Brother is haunting.',
+        genre: 'Dystopian',
+        pages: 328,
+        isFavorite: true
+    },
+    {
+        id: 7,
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/0140283293-L.jpg',
+        title: 'Sapiens: A Brief History of Humankind',
+        author: 'Yuval Noah Harari',
+        rating: '⭐⭐⭐⭐☆',
+        dateRead: 'Dec 1, 2023',
+        notes: 'Eye-opening perspective on human history. Sometimes oversimplifies, but the insights are fascinating.',
+        genre: 'History',
+        pages: 464,
+        isFavorite: false
+    },
+    {
+        id: 8,
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/0066620996-L.jpg',
+        title: 'Good to Great',
+        author: 'Jim Collins',
+        rating: '⭐⭐⭐⭐☆',
+        dateRead: 'Sep 10, 2022',
+        notes: 'Loved the research-driven approach. The "Hedgehog Concept" and "Level 5 Leadership" stood out.',
+        genre: 'Business',
+        pages: 320,
+        isFavorite: true
+    },
+    {
+        id: 9,
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/0140449264-L.jpg',
+        title: 'Meditations',
+        author: 'Marcus Aurelius',
+        rating: '⭐⭐⭐⭐⭐',
+        dateRead: 'Aug 3, 2023',
+        notes: 'Timeless wisdom from a Stoic philosopher. A must-read for self-discipline and perspective on life.',
+        genre: 'Philosophy',
+        pages: 304,
+        isFavorite: true
+    },
+    {
+        id: 10,
+        coverUrl: 'https://covers.openlibrary.org/b/isbn/081298160X-L.jpg',
+        title: 'Man’s Search for Meaning',
+        author: 'Viktor E. Frankl',
+        rating: '⭐⭐⭐⭐⭐',
+        dateRead: 'Oct 18, 2022',
+        notes: 'A powerful reflection on suffering and resilience. The idea of finding meaning even in hardship is life-changing.',
+        genre: 'Psychology',
+        pages: 192,
         isFavorite: true
     }
 ];

@@ -2083,6 +2083,7 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
 /*!***************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.scss ***!
   \***************************************************************************************************************/
+@charset "UTF-8";
 /* Ensure the navbar stays fixed at the top */
 .navbar {
   position: absolute !important;
@@ -2170,28 +2171,26 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
   position: relative;
   border: none;
   height: 100%;
-  transform-style: preserve-3d;
   transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.25);
 }
+.book-card .card .mobile-expand {
+  display: none;
+  padding: 1rem;
+  background: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
+  color: white;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
 .book-card .card-front {
   backface-visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   height: 100%;
   transform: rotateY(0deg);
   z-index: 2;
   background-size: cover;
-}
-.book-card .card-front::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  cursor: pointer;
 }
 .book-card .card-front .rating {
   position: absolute;
@@ -2201,13 +2200,31 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
   color: white;
   padding: 0.3rem 0.75rem;
   border-radius: 20px;
-  transform: rotateY(0deg) translateZ(1px);
   z-index: 3;
   display: flex;
   align-items: center;
 }
 .book-card .card-front .rating svg {
   margin-right: 0.25rem;
+}
+@media (max-width: 768px) {
+  .book-card .card-front::after {
+    content: "Tap for details ▲";
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1rem;
+    /* New visibility enhancements */
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.7), 0 0 2px #000; /* Triple-layer shadow */
+    /* -- Background Circle -- */
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+  }
 }
 .book-card .card-back {
   backface-visibility: hidden;
@@ -2219,25 +2236,52 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
   transform: rotateY(180deg);
   background: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
 }
-.book-card:hover .card {
-  transform: rotateY(180deg);
+@media (hover: hover) and (pointer: fine) {
+  .book-card:hover .card {
+    transform: rotateY(180deg);
+  }
 }
-.book-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15);
-  pointer-events: none;
-  z-index: 1;
+.book-card.mobile-expanded .mobile-expand {
+  display: block;
+  animation: fadeIn 0.3s ease-out;
+}
+@media (max-width: 768px) {
+  .book-card.mobile-expanded .card-front::after {
+    content: "Tap to close ▼";
+    opacity: 0.7;
+  }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 @media (max-width: 768px) {
+  .book-card {
+    min-height: 300px;
+    perspective: none;
+  }
+  .book-card .card {
+    transform-style: flat;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  .book-card .card-front {
+    position: relative;
+    height: auto;
+    min-height: 300px;
+  }
   .book-card .card-back {
-    padding: 1rem !important;
+    display: none;
+  }
+  .book-card:active .card-front {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
   }
 }
 body.no-scroll {
