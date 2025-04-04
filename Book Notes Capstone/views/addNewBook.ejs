@@ -44,6 +44,32 @@
         Please enter a date.
       </div>
     </div>
+    <div class="col-12" id="coverUrlField" style="display: none;">
+      <label for="coverUrl" class="form-label">
+        Book Cover URL
+        <a href="#" class="badge bg-info text-dark ms-2" data-bs-toggle="modal" data-bs-target="#coverHelpModal">
+          <i class="fas fa-question-circle me-1"></i>How to find this
+        </a>
+      </label>
+      <input type="url" class="form-control" id="coverUrl" name="coverUrl" 
+             placeholder="https://example.com/book-cover.jpg" required>
+      <p class="form-note">
+        No cover found automatically. 
+        <a href="#" data-bs-toggle="modal" data-bs-target="#coverHelpModal">Learn how to find a cover image URL</a>.
+      </p>
+      <div class="invalid-feedback">
+        Please enter a valid image URL (must start with http:// or https://)
+      </div>
+      <div class="mt-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="previewCover">
+          <i class="fas fa-eye me-1"></i>Preview Cover
+        </button>
+        <div id="coverPreview" class="mt-2" style="display:none;">
+          <img src="" alt="Cover preview" class="img-thumbnail" style="max-height: 200px;">
+          <p class="small text-muted mt-1">Cover preview - check if this looks correct</p>
+        </div>
+      </div>
+    </div>
     <div class="col-12 pb-4">
       <label for="exampleFormControlTextarea1" class="form-label">Book Notes (Optional)</label>
       <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="note"></textarea>    
@@ -74,4 +100,61 @@
 </div>
 
 
+<!-- Help Modal for Cover URLs -->
+<div class="modal fade" id="coverHelpModal" tabindex="-1" aria-labelledby="coverHelpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="coverHelpModalLabel"><i class="fas fa-camera me-2"></i>How to Find a Book Cover Image</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card h-100 border-light">
+              <div class="card-body">
+                <h6 class="card-title text-dark"><i class="fab fa-google text-primary me-2"></i>Google Images Method</h6>
+                <ol class="small">
+                  <li class="mb-2">Search "<strong>[book title] cover</strong>" on <a href="https://images.google.com" target="_blank">Google Images</a></li>
+                  <li class="mb-2">Click on a high-quality cover image</li>
+                  <li class="mb-2">Right-click the image and select <strong>"Copy image address"</strong></li>
+                  <li class="mb-2">Paste the URL in the cover field</li>
+                </ol>
+                <div class="text-center mt-2">
+                  <img src="data:image/jpeg;base64,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" alt="Google Images example" class="img-fluid rounded border" style="max-height: 150px;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100 border-light">
+              <div class="card-body">
+                <h6 class="card-title text-dark"><i class="fab fa-amazon text-warning me-2"></i>Amazon Method</h6>
+                <ol class="small">
+                  <li class="mb-2">Find your book on <a href="https://www.amazon.com" target="_blank">Amazon</a></li>
+                  <li class="mb-2">Right-click the cover image</li>
+                  <li class="mb-2">Select <strong>"Open image in new tab"</strong></li>
+                  <li class="mb-2">Copy the URL from the address bar</li>
+                </ol>
+                <div class="text-center mt-2">
+                  <img src="https://m.media-amazon.com/images/I/61hGte+Zj2L._AC_UF1000,1000_QL80_.jpg" alt="Amazon example" class="img-fluid rounded border" style="max-height: 150px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-info mt-3 small d-flex align-items-center">
+          <i class="fas fa-lightbulb me-2 fs-4"></i>
+          <div>
+            <strong>Pro Tip:</strong> Look for URLs ending with <code>.jpg</code>, <code>.png</code> or containing <code>large</code>/<code>L</code> for higher quality images.
+            Avoid URLs with <code>logo</code> or <code>thumbnail</code> in them.
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Got it!</button>
+      </div>
+    </div>
+  </div>
+</div>
 <%- include('partials/footer.ejs'); -%>
