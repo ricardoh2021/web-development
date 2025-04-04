@@ -859,21 +859,24 @@ function setupBookPagination() {
  * - Logs events to the console for debugging purposes.
  */
 function setupClickWithinCard() {
-    // Select all elements with the class 'book-card' and iterate over each
-    document.querySelectorAll('.book-card').forEach((card) => {
-        // Find the inner '.card' element within the book card
-        const cardInner = card.querySelector('.card');
+    if (window.matchMedia("(min-width: 768px)").matches) { // Adjust breakpoint as needed
+        // Select all elements with the class 'book-card' and iterate over each
+        document.querySelectorAll('.book-card').forEach((card) => {
+            // Find the inner '.card' element within the book card
+            const cardInner = card.querySelector('.card');
 
-        // Add flip effect when the mouse enters the card
-        cardInner.addEventListener('mouseenter', () => {
-            cardInner.classList.add('flipped'); // Flip when entering
-        });
+            // Add flip effect when the mouse enters the card
+            cardInner.addEventListener('mouseenter', () => {
+                cardInner.classList.add('flipped'); // Flip when entering
+            });
 
-        // Remove flip effect when the mouse leaves the card
-        cardInner.addEventListener('mouseleave', () => {
-            cardInner.classList.remove('flipped'); // Flip back when fully leaving
+            // Remove flip effect when the mouse leaves the card
+            cardInner.addEventListener('mouseleave', () => {
+                cardInner.classList.remove('flipped'); // Flip back when fully leaving
+            });
         });
-    });
+    }
+
 }
 
 window.addEventListener('DOMContentLoaded', () => {
