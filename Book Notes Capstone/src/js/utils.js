@@ -390,7 +390,8 @@ function setupNavbarToggler() {
     }
 
     navbarToggler.addEventListener("click", function () {
-        navbar.classList.toggle("expanded", navbarCollapse.classList.contains("show"));
+        navbar.classList.add("expanded");
+        console.log("Swag");
     });
 
     navbarCollapse.addEventListener("hidden.bs.collapse", function () {
