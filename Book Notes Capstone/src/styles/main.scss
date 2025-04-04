@@ -24,6 +24,7 @@ $xxl-breakpoint: 1400px;
     ); /* Add your desired color with transparency */
     flex-direction: column;
     height: 100vh;
+    overflow-y: auto;
   }
   .nav-link {
     color: white !important;
@@ -184,6 +185,16 @@ $xxl-breakpoint: 1400px;
       height: 100%;
       transform: rotateY(180deg);
       background: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
+    }
+
+    &.flipped {
+      transform: rotateY(180deg);
+    }
+
+    &:active:not(.flipped) {
+      transform: scale(0.98) rotateY(0deg);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 3px 10px rgba(0, 0, 0, 0.15);
+      opacity: 0.9;
     }
   }
 
