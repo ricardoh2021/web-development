@@ -1,9 +1,8 @@
-import express from "express";
-import bodyParser from "body-parser";
-import pg from "pg";
-import axios from 'axios';
-import { body, validationResult } from 'express-validator';
-
+const express = require("express");
+const bodyParser = require("body-parser");
+const pg = require("pg");
+const axios = require('axios');
+const { body, validationResult } = require('express-validator');
 
 const app = express();
 const port = 3000;
@@ -437,6 +436,21 @@ app.post('/addBook',
             .isLength({ max: 500 })
             .escape()
             .withMessage("Book notes must be at most 500 characters."),
+
+        // Validate and sanitize optional cover URL
+        body("coverUrl")
+            .trim()
+            .optional({ checkFalsy: true }) // allow empty
+            .isURL({ protocols: ['http', 'https'], require_protocol: true })
+            .withMessage("Must be a valid URL starting with http or https.")
+            .matches(/\.(jpg|jpeg|png)$/i)
+            .withMessage("URL must end in .jpg, .jpeg, or .png"),
+
+        body("book_rating")
+            .trim()
+            .optional({ checkFalsy: true })
+            .isInt({ min: 0, max: 5 })
+            .withMessage("Rating must be an integer between 1 and 5.")
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -446,9 +460,11 @@ app.post('/addBook',
 
         const { isbn, title, date, note, book_rating } = req.body;
 
+        console.log(req.body);
+
+
         // Construct the Open Library cover URL
         const coverUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
-        console.log(coverUrl);
 
 
         try {
@@ -464,3 +480,5 @@ app.post('/addBook',
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+
+module.exports = app; // Export app for testing

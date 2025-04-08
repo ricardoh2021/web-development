@@ -34,6 +34,7 @@ function setupCover() {
     const MIN_COVER_SIZE = 1024; // 1KB minimum to avoid placeholder images
     const ALLOWED_IMAGE_TYPES = ['jpg', 'jpeg', 'png'];
     const OPEN_LIBRARY_DOMAIN = 'covers.openlibrary.org';
+    const US_ARCHIVE_DOMAIN = 'us.archive.org';
     const DEBOUNCE_TIME = 1000; // 1 second debounce for ISBN input
 
     // --- STATE MANAGEMENT ---
@@ -105,7 +106,8 @@ function setupCover() {
 
             // Verify response came from expected domain
             const responseUrl = new URL(response.url);
-            if (!responseUrl.hostname.endsWith(OPEN_LIBRARY_DOMAIN)) {
+            console.log(responseUrl.hostname);
+            if (!responseUrl.hostname.endsWith(OPEN_LIBRARY_DOMAIN) && !responseUrl.hostname.endsWith(US_ARCHIVE_DOMAIN)) {
                 console.warn('[secureFetch] Security Alert: Response from unexpected domain', responseUrl.hostname);
                 throw new Error('Unexpected response domain');
             }
