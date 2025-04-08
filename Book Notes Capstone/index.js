@@ -1,7 +1,13 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const { body, validationResult } = require('express-validator');
-const path = require('path');
+import express from 'express';
+import bodyParser from 'body-parser';
+import { body, validationResult } from 'express-validator';
+import path from 'path';
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Configuration
 const config = {
@@ -33,16 +39,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Data layer (would normally be in a separate file/database)
-const sampleBooks = require('./__data/sampleBooks'); // Moved to separate file
-
+import { sampleBooks } from './__data/sampleBooks.js';
 // Controllers
 const booksController = {
     getHomePage: async (req, res) => {
         try {
+            console.log(sampleBooks);
+
             res.render("index", { books: sampleBooks });
         } catch (error) {
             console.error('Home page error:', error);
-            res.status(500).render('error', { message: 'Internal Server Error' });
+            res.status(500).render('error', { message: 'Internal Server Error', error: null });
         }
     },
 
@@ -138,7 +145,7 @@ app.use((err, req, res, next) => {
 
 // 404 handler
 app.use((req, res) => {
-    res.status(404).render('error', { message: 'Page not found' });
+    res.status(404).render('error', { message: 'Page not found', error: null });
 });
 
 // Start server
@@ -146,5 +153,4 @@ const server = app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);
 });
 
-// Export for testing
-module.exports = { app, server };
+export { app, server };

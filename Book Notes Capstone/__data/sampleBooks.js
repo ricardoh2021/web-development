@@ -1,4 +1,4 @@
-const sampleBooks = [
+export const sampleBooks = [
     {
         id: 1,
         coverUrl: 'https://covers.openlibrary.org/b/isbn/0735211299-L.jpg',
@@ -364,3 +364,4 @@ const sampleBooks = [
         isbn10: '1941663944'
     }
 ];
+
