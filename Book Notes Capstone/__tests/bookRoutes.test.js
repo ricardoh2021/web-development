@@ -1,6 +1,6 @@
 // bookRoutes.test.js
-const request = require('supertest');
-const app = require("../index")
+import request from 'supertest'
+import { app } from '../index.js';
 
 describe('POST /addBook', () => {
 

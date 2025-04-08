@@ -4,10 +4,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "scss": "sass --watch src/styles/main.scss public/css/main.css",
     "start": "nodemon server.js",
     "dev": "webpack --watch & nodemon server.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
   },
   "keywords": [],
   "author": "",
