@@ -44,8 +44,6 @@ import { sampleBooks } from './__data/sampleBooks.js';
 const booksController = {
     getHomePage: async (req, res) => {
         try {
-            console.log(sampleBooks);
-
             res.render("index", { books: sampleBooks });
         } catch (error) {
             console.error('Home page error:', error);
@@ -99,7 +97,7 @@ const booksController = {
         body("book_rating")
             .trim()
             .optional({ checkFalsy: true })
-            .isInt({ min: 0, max: 5 })
+            .isFloat({ min: 0, max: 5 })
             .withMessage("Rating must be an integer between 1 and 5."),
 
         // Handler
@@ -109,13 +107,19 @@ const booksController = {
                 return res.status(400).json({ errors: errors.array() });
             }
 
-            const { isbn, title, date, note, book_rating } = req.body;
-            console.log("New book data:", { isbn, title, date, note, book_rating });
+            const { isbn, title, date, note, book_rating, coverUrl } = req.body;
+            console.log("New book data:", { isbn, title, date, note, book_rating, coverUrl });
 
             try {
                 // In a real app, you would save to database here
-                const coverUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+                if (coverUrl == '') {
+                    console.log("Hello, no need for a book url cover")
+                }
+                else {
+                    console.log("coverUrl was entered by user");
 
+
+                }
                 // Redirect to home page or show success message
                 res.redirect('/');
             } catch (error) {
