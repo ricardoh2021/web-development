@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { body, validationResult } from 'express-validator';
 import path from 'path';
-
+import pg from "pg";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -38,12 +38,67 @@ app.use(express.static(config.staticFiles.directory, {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+const db = new pg.Pool({
+    user: "postgres",
+    host: "localhost",
+    database: "Books",
+    password: "kumaPostgres!l",
+    port: 5432,
+});
+
+
+await db.connect(); //Will start the database 
+
 // Data layer (would normally be in a separate file/database)
 import { sampleBooks } from './__data/sampleBooks.js';
+
+
+/**
+ * Executes a database query.
+ * @param {string} query - The SQL query to execute.
+ * @param {Array} params - The parameters for the query.
+ * @returns {Promise} - Resolves with query results or rejects with an error.
+ */
+async function executeQuery(query, params = []) {
+    try {
+        const result = await db.query(query, params);
+        return result.rows;
+    } catch (err) {
+        console.error("Database query error:", err);
+        throw err; // Propagate the error for higher-level handling
+    }
+}
+
+
+let cachedBooks = null;
+let lastFetchTime = 0;
+const CACHE_DURATION_MS = 10 * 1000; // 10 seconds
+
+async function getBooks() {
+    const now = Date.now();
+
+    // If cache exists and it's recent, return it
+    if (cachedBooks && (now - lastFetchTime) < CACHE_DURATION_MS) {
+        console.log("Returning cached books");
+        return cachedBooks;
+    }
+
+    // Otherwise, fetch from DB and cache it
+    console.log("Fetching from database");
+    const query = "SELECT * FROM books";
+    const items = await executeQuery(query);
+
+    cachedBooks = items;
+    lastFetchTime = now;
+
+    return items;
+}
+
 // Controllers
 const booksController = {
     getHomePage: async (req, res) => {
         try {
+            console.log(await getBooks());
             res.render("index", { books: sampleBooks });
         } catch (error) {
             console.error('Home page error:', error);
@@ -100,30 +155,44 @@ const booksController = {
             .isFloat({ min: 0, max: 5 })
             .withMessage("Rating must be an integer between 1 and 5."),
 
+        body("author")
+            .trim()
+            .isLength({ min: 2, max: 150 })
+            .escape()
+            .withMessage("Author must be between 2 and 150 characters."),
+
         // Handler
         async (req, res) => {
+            const OPEN_LIBRARY_DOMAIN = 'covers.openlibrary.org';
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(400).json({ errors: errors.array() });
             }
 
-            const { isbn, title, date, note, book_rating, coverUrl } = req.body;
-            console.log("New book data:", { isbn, title, date, note, book_rating, coverUrl });
+            let { isbn, title, date, note, book_rating, coverUrl, author } = req.body;
+            console.log("New book data:", { isbn, title, date, note, book_rating, coverUrl, author });
 
             try {
                 // In a real app, you would save to database here
                 if (coverUrl == '') {
-                    console.log("Hello, no need for a book url cover")
+                    coverUrl = `https://${OPEN_LIBRARY_DOMAIN}/b/isbn/${isbn}-L.jpg`;
                 }
-                else {
-                    console.log("coverUrl was entered by user");
 
+                const query = "INSERT INTO books(title, isbn, cover_url, date_read) VALUES ($1, $2, $3, $4) RETURNING *";
+                const params = [title, isbn, coverUrl, date];
+                const result = await executeQuery(query, params);
 
-                }
+                console.log("Item added:", result);
                 // Redirect to home page or show success message
                 res.redirect('/');
             } catch (error) {
                 console.error("Book addition error:", error);
+                if (error.code === '23505') { // PostgreSQL unique violation error code
+                    // Render the same form page with an error message
+                    return res.status(409).json({
+                        errors: [{ msg: 'A book with this ISBN already exists in your collection.' }]
+                    });
+                }
                 res.status(500).render('error', {
                     message: 'Could not add book',
                     error: process.env.NODE_ENV === 'development' ? error : null

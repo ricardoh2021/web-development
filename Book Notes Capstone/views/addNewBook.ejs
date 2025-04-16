@@ -12,8 +12,10 @@
 </div>
 
 <div class="container">
-  <form class="row g-3 needs-validation" novalidate action="/addBook" method="POST">
-    <div class="col-md-5">
+    <div class="alert alert-danger" style="display: none;" id="error-message">
+    </div>
+  <form class="row g-3 needs-validation" novalidate id="bookForm" method="POST">
+    <div class="col-md-3">
       <label for="inputTitle" class="form-label">Title</label>
       <input type="title" class="form-control" id="inputTitle" name="title" required>
       <p class="form-note">
@@ -23,7 +25,17 @@
         Please enter a book title.
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+      <label for="inputAuthor" class="form-label">Author</label>
+      <input type="author" class="form-control" id="inputAuthor" name="author" required>
+      <p class="form-note">
+        Enter the name of the author.
+      </p>
+      <div class="invalid-feedback">
+        Please enter the author's name.
+      </div>
+    </div>
+    <div class="col-md-3">
       <label for="inputISBN" class="form-label">ISBN-10</label>
       <input type="isbn" class="form-control" name="isbn" id="inputISBN" maxlength="10" pattern="\d{9}[\dXx]" required>
       <p class="form-note">
