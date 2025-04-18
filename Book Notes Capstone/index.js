@@ -98,8 +98,8 @@ async function getBooks() {
 const booksController = {
     getHomePage: async (req, res) => {
         try {
-            console.log(await getBooks());
-            res.render("index", { books: sampleBooks });
+            const databaseBooks = await getBooks();
+            res.render("index", { books: databaseBooks });
         } catch (error) {
             console.error('Home page error:', error);
             res.status(500).render('error', { message: 'Internal Server Error', error: null });
@@ -178,8 +178,8 @@ const booksController = {
                     coverUrl = `https://${OPEN_LIBRARY_DOMAIN}/b/isbn/${isbn}-L.jpg`;
                 }
 
-                const query = "INSERT INTO books(title, isbn, cover_url, date_read) VALUES ($1, $2, $3, $4) RETURNING *";
-                const params = [title, isbn, coverUrl, date];
+                const query = "INSERT INTO books(title, isbn, cover_url, date_read, author) VALUES ($1, $2, $3, $4, $5) RETURNING *";
+                const params = [title, isbn, coverUrl, date, author];
                 const result = await executeQuery(query, params);
 
                 console.log("Item added:", result);
@@ -220,6 +220,14 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
     res.status(404).render('error', { message: 'Page not found', error: null });
 });
+
+app.locals.formatDate = function (date) {
+    return new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+};
 
 // Start server
 const server = app.listen(config.port, () => {
