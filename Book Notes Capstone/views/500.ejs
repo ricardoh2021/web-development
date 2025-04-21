@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Server Error</title>
+    <style>
+        :root {
+            --primary: #6c63ff;
+            --error-bg: #f8f9fa;
+            --text: #333;
+            --light-text: #6c757d;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--error-bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: var(--primary);
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: var(--light-text);
+            margin-bottom: 2rem;
+        }
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .error-details {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f1f1f1;
+            border-radius: 5px;
+            text-align: left;
+            font-family: monospace;
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">🚨</div>
+        <h1>500</h1>
+        <h2>Oops! Something went wrong.</h2>
+        <p><%= message || "Our servers encountered an error. Please try again later." %></p>
+        <a href="/">← Go back home</a> | <a href="mailto:support@example.com">Contact support</a>
+
+        <!-- Only show error details in development -->
+        <% if (process.env.NODE_ENV === 'development' && error) { %>
+            <div class="error-details">
+                <h3>Error Details (Dev Only):</h3>
+                <pre><%= error.stack || error %></pre>
+            </div>
+        <% } else { %>
+            <style>
+                .error-details { display: none; }
+            </style>
+        <% } %>
+    </div>
+</body>
+</html>
