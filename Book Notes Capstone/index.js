@@ -49,8 +49,26 @@ const db = new pg.Pool({
 
 await db.connect(); //Will start the database 
 
-// Data layer (would normally be in a separate file/database)
-import { sampleBooks } from './__data/sampleBooks.js';
+const FULL_STAR = '⭐';
+const NO_STAR = '☆';
+function ratingsWithEmojis(rating) {
+    rating = Math.round(rating);
+
+    if (rating === 0) {
+        return NO_STAR.repeat(5); // Return immediately, skip the loop
+    }
+
+    let emojiRating = '';
+    for (let i = 0; i < 5; i++) {
+        if (i < rating) {
+            emojiRating += FULL_STAR;
+        } else {
+            emojiRating += NO_STAR;
+        }
+    }
+
+    return emojiRating;
+}
 
 
 /**
@@ -79,7 +97,6 @@ async function insertRow(query, params, label) {
     return result;
 }
 
-
 let cachedBooks = null;
 let lastFetchTime = 0;
 const CACHE_DURATION_MS = 10 * 1000; // 10 seconds
@@ -90,8 +107,8 @@ const getBookNoteRatingQuery = `SELECT
   books.cover_url,
   books.date_read,
   books.author,
-  ratings.rating,
-  notes.note,
+  COALESCE(ratings.rating, 0) AS rating,  -- Default rating to 0 if NULL
+  COALESCE(notes.note, 'No note available') AS note,  -- Default note if NULL
   notes.created_at
 FROM books
 LEFT JOIN ratings ON books.book_id = ratings.book_id
@@ -108,12 +125,19 @@ async function getBooks() {
 
     // Otherwise, fetch from DB and cache it
     console.log("Fetching from database");
-    const items = await executeQuery(getBookNoteRatingQuery);
+    let items = await executeQuery(getBookNoteRatingQuery);
+
+    const booksWithEmoji = items.map(item => ({
+        ...item,
+        ratingEmoji: ratingsWithEmojis(item.rating)
+    }));
+
+    console.log(booksWithEmoji);
 
     cachedBooks = items;
     lastFetchTime = now;
 
-    return items;
+    return booksWithEmoji;
 }
 
 // Controllers
@@ -194,6 +218,7 @@ const booksController = {
 
             let { isbn, title, date, note, book_rating, coverUrl, author } = req.body;
             console.log("New book data:", { isbn, title, date, note, book_rating, coverUrl, author });
+            const starRating = await ratingsWithEmojis(book_rating);
 
             try {
                 if (!coverUrl) {
