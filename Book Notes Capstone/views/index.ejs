@@ -31,7 +31,7 @@
                 <h3 class="card-title fs-4 mb-3"><%- book.title %></h3>
                 <div class="notes flex-grow-1 mb-3"><%= book.note %></div>
                 <div class="meta mt-auto small">
-                  <p class="mb-1">Read on: <strong><%= formatDate(book.date_read) %></strong></p>
+                  <p class="mb-1">Read on: <strong><%= formatDate(book.date_started) %></strong></p>
                   <p class="mb-0">Author: <strong><%= book.author %></strong></p>
                 </div>
               </div>
@@ -41,7 +41,7 @@
                 <h3 class="h5 mb-3"><%= book.title %></h3>
                 <div class="notes mb-3"><%= book.note %></div>
                 <div class="meta small mb-3">
-                  <p class="mb-1">Read on: <strong><%= formatDate(book.date_read) %></strong></p>
+                  <p class="mb-1">Read on: <strong><%= formatDate(book.date_started) %></strong></p>
                   <p class="mb-2">Author: <strong><%= book.author %></strong></p>
                 </div>
                 <a href="/books/<%= book.id %>" class="btn btn-sm btn-outline-light">

@@ -87,7 +87,7 @@ async function executeQuery(query, params = []) {
     }
 }
 
-const INSERT_BOOK = "INSERT INTO books(title, isbn, cover_url, date_read, author) VALUES ($1, $2, $3, $4, $5) RETURNING *";
+const INSERT_BOOK = "INSERT INTO books(title, isbn, cover_url, date_started, author) VALUES ($1, $2, $3, $4, $5) RETURNING *";
 const INSERT_RATING = "INSERT INTO ratings(book_id, rating) VALUES ($1, $2) RETURNING *";
 const INSERT_NOTE = "INSERT INTO notes(book_id, note) VALUES ($1, $2) RETURNING *";
 
@@ -105,7 +105,7 @@ const getBookNoteRatingQuery = `SELECT
   books.book_id,
   books.title,
   books.cover_url,
-  books.date_read,
+  books.date_started,
   books.author,
   COALESCE(ratings.rating, 0) AS rating,  -- Default rating to 0 if NULL
   COALESCE(notes.note, 'No note available') AS note,  -- Default note if NULL

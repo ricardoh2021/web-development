@@ -10,27 +10,47 @@ $(document).ready(function () {
     let currentHover = 0; // The current hover rating. THis will be used to check if currently hovering or not.
     let selectedRating = 0; //The selected rating when clicked
 
-    const datepickerInstance = $datepicker.flatpickr({
-        altInput: true,
-        altFormat: "F j, Y",
-        dateFormat: "Y-m-d",
-        maxDate: 'today',
-        onClose: function (_, dateStr, instance) {
-            updateInputValidity(instance.input, instance.altInput, dateStr);
-        }
+    // Initialize all datepickers
+    $('.datepicker').each(function () {
+        const $picker = $(this);
+        $picker.flatpickr({
+            altInput: true,
+            altFormat: "F j, Y",
+            dateFormat: "Y-m-d",
+            maxDate: 'today',
+            // onClose: function (_, dateStr) {
+            //     updateInputValidity($picker[0], $picker.siblings(".form-control")[0], dateStr);
+            // }
+        });
     });
 
-    // Form submission handler
+    // Form submission handler (now checks all datepickers)
     $("form").on("submit", function (event) {
-        const isValid = !!$datepicker.val().trim();
-        updateInputValidity($datepicker[0], $datepicker.siblings(".form-control")[0], isValid);
+        let formIsValid = true;
 
-        if (!isValid) {
+        $('.datepicker').each(function () {
+            const $picker = $(this);
+            const isValid = !!$picker.val().trim();
+
+            if ($picker.prop('required') && !isValid) {
+                formIsValid = false;
+                console.log($picker[0]);
+
+                updateInputValidity($picker[0], $picker.siblings(".form-control")[0], false);
+            }
+            else if (!$picker.prop('required')) {
+                console.log($picker[0]);
+
+                updateInputValidity($picker[0], $picker.siblings(".form-control")[0], true);
+            }
+        });
+
+        if (!formIsValid) {
             event.preventDefault();
         }
     });
 
-    // Shared function to update input validity
+    // Shared validation function (unchanged)
     function updateInputValidity(inputElement, altInputElement, isValid) {
         const $input = $(inputElement);
         const $altInput = $(altInputElement);

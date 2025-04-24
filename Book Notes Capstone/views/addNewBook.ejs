@@ -50,7 +50,7 @@
     </div>
     <div class="col-md-3">
       <label for="datepicker" class="form-label">Date Read</label>
-      <input class="form-control" id="datepicker" placeholder="Select Date.." required name="date">
+      <input class="datepicker form-control" id="datepicker" placeholder="Select Date.." required name="date">
       <p class="form-note">
         Select the date you finished reading the book.  
       </p>
@@ -87,6 +87,16 @@
     <div class="col-12 pb-4">
       <label for="exampleFormControlTextarea1" class="form-label">Book Notes (Optional)</label>
       <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="note"></textarea>    
+    </div>
+    <div class="col-md-3">
+      <label for="datepicker" class="form-label">Date Finished</label>
+      <input class="datepicker form-control" id="datepicker" placeholder="Select Date.." name="date_finished">
+      <p class="form-note">
+        Select the date you finished reading the book (optional).  
+      </p>
+      <div class="invalid-feedback">
+        Please enter a valid date.
+      </div>
     </div>
     <div class="col-12">
       <label class="form-label">Your Rating (Optional)</label>
