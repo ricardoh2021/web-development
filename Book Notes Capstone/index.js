@@ -5,6 +5,7 @@ import path from 'path';
 import pg from "pg";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { truncateText } from './src/js/util_server_side.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -129,6 +130,7 @@ async function getBooks() {
 
     const booksWithEmoji = items.map(item => ({
         ...item,
+        note: truncateText(item.note, 150, true), // or item.note + " some addition"
         ratingEmoji: ratingsWithEmojis(item.rating)
     }));
 

@@ -198,6 +198,23 @@ $xxl-breakpoint: 1400px;
     }
   }
 
+  .click-indicator {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+
+    &.hovered-note-indicator {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateX(5px);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
   // Flip on hover (desktop only)
   &:hover .card {
     @media (hover: hover) and (pointer: fine) {

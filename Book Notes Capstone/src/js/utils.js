@@ -485,6 +485,28 @@ function setupClickWithinCard() {
 
 }
 
+function setupClickIndicatorHover() {
+    if (window.innerWidth >= 992) { // Only applies on desktop screens
+        // Step 2 will go here
+        const cards = document.querySelectorAll('.book-card');
+
+        cards.forEach((card) => {
+            // Step 3 will go here
+            const clickIndicator = card.querySelector('.click-indicator')
+
+            // Add flip effect when the mouse enters the card
+            clickIndicator.addEventListener('mouseenter', () => {
+                clickIndicator.classList.add('hovered-note-indicator'); // Flip when entering
+            });
+
+            // Remove flip effect when the mouse leaves the card
+            clickIndicator.addEventListener('mouseleave', () => {
+                clickIndicator.classList.remove('hovered-note-indicator'); // Flip back when fully leaving
+            });
+        });
+    }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     setupNavbarToggler();
     setupColorTheme();
@@ -493,4 +515,5 @@ window.addEventListener('DOMContentLoaded', () => {
     setupJQueryFeatures();
     setupBookPagination();
     setupClickWithinCard();
+    setupClickIndicatorHover();
 });

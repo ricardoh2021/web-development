@@ -2245,6 +2245,20 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 3px 10px rgba(0, 0, 0, 0.15);
   opacity: 0.9;
 }
+.book-card .click-indicator {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.book-card .click-indicator.hovered-note-indicator {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+.book-card .click-indicator a {
+  color: inherit;
+  text-decoration: none;
+}
 @media (hover: hover) and (pointer: fine) {
   .book-card:hover .card {
     transform: rotateY(180deg);
