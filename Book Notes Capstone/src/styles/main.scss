@@ -7,6 +7,18 @@ $lg-breakpoint: 992px;
 $xl-breakpoint: 1200px;
 $xxl-breakpoint: 1400px;
 
+/* Base variables */
+:root {
+  --notes-background: #f8f9fa; /* Light background */
+  --card-text: #000000; /* Light text */
+}
+
+/* Dark mode overrides */
+[data-bs-theme="dark"] {
+  --notes-background: rgb(53, 57, 61);
+  --card-text: #f8f9fa; /* Light text for dark mode */
+}
+
 /* Ensure the navbar stays fixed at the top */
 .navbar {
   position: absolute !important;
@@ -63,6 +75,9 @@ $xxl-breakpoint: 1400px;
   &.note {
     background-image: url("../../public/assets/images/note_taking.jpg");
   }
+  &.book-detail {
+    filter: blur(4px);
+  }
 
   &::before {
     content: "";
@@ -100,6 +115,15 @@ $xxl-breakpoint: 1400px;
   display: flex;
   flex-direction: column;
   min-height: 400px;
+
+  //Used only on the book detail page
+  &.book-card--detail {
+    max-width: 800px;
+    margin: 40px auto;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
 
   .card {
     flex: 1;
@@ -526,4 +550,24 @@ hr {
     opacity: 0.9;
     text-decoration: none;
   }
+}
+
+// View Book Details ejs page
+.book-cover {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.notes-section {
+  background-color: var(--notes-background);
+  padding: 20px;
+  border-left: 5px solid #0d6efd;
+  margin-top: 20px;
+  font-style: italic;
+}
+
+.rating-stars {
+  font-size: 2rem;
+  color: #ffc107;
 }

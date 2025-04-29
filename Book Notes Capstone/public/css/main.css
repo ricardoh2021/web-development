@@ -2084,6 +2084,18 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.scss ***!
   \***************************************************************************************************************/
 @charset "UTF-8";
+/* Base variables */
+:root {
+  --notes-background: #f8f9fa; /* Light background */
+  --card-text: #000000; /* Light text */
+}
+
+/* Dark mode overrides */
+[data-bs-theme=dark] {
+  --notes-background: rgb(53, 57, 61);
+  --card-text: #f8f9fa; /* Light text for dark mode */
+}
+
 /* Ensure the navbar stays fixed at the top */
 .navbar {
   position: absolute !important;
@@ -2132,6 +2144,9 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
 .hero-section.note {
   background-image: url(../a8e1a3b4905fead3d71f.jpg);
 }
+.hero-section.book-detail {
+  filter: blur(4px);
+}
 .hero-section::before {
   content: "";
   position: absolute;
@@ -2165,6 +2180,13 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
   display: flex;
   flex-direction: column;
   min-height: 400px;
+}
+.book-card.book-card--detail {
+  max-width: 800px;
+  margin: 40px auto;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 .book-card .card {
   flex: 1;
@@ -2514,6 +2536,25 @@ hr {
 .badge.bg-info:hover {
   opacity: 0.9;
   text-decoration: none;
+}
+
+.book-cover {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.notes-section {
+  background-color: var(--notes-background);
+  padding: 20px;
+  border-left: 5px solid #0d6efd;
+  margin-top: 20px;
+  font-style: italic;
+}
+
+.rating-stars {
+  font-size: 2rem;
+  color: #ffc107;
 }
 
 /*# sourceMappingURL=main.css.map*/

@@ -163,6 +163,15 @@ const booksController = {
         }
     },
 
+    viewBook: async (req, res) => {
+        try {
+            res.render("viewBookDetails");
+        } catch (error) {
+            console.error("Viewing book page error:", error);
+            res.status(500).render('500', { message: 'Could not load book page' });
+        }
+    },
+
     addBook: [
         // Validation middleware
         body("isbn")
@@ -257,6 +266,7 @@ const booksController = {
 // Routes
 app.get('/', booksController.getHomePage);
 app.get('/new-book', booksController.getNewBookPage);
+app.get('/view-book', booksController.viewBook);
 app.post('/addBook', booksController.addBook);
 
 // Error handling middleware
