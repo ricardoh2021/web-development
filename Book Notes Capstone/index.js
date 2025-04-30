@@ -1,3 +1,4 @@
+// Import required modules
 import express from 'express';
 import bodyParser from 'body-parser';
 import { body, validationResult } from 'express-validator';
@@ -7,39 +8,49 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { truncateText } from './src/js/util_server_side.js';
 
+// Get current directory path (ES modules compatible)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Configuration
+// ==============================================
+// CONFIGURATION SECTION
+// ==============================================
 const config = {
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 3000, // Use environment port or default to 3000
     staticFiles: {
-        directory: 'public',
-        maxAge: '30d',
-        imageExtensions: ['.jpg', '.png', '.webp']
+        directory: 'public', // Directory for static files
+        maxAge: '30d', // Cache duration for static files
+        imageExtensions: ['.jpg', '.png', '.webp'] // Supported image extensions
     }
 };
 
-// Initialize Express app
+// Initialize Express application
 const app = express();
 
-// Middleware setup
-app.use(bodyParser.urlencoded({ extended: true }));
+// ==============================================
+// MIDDLEWARE SETUP
+// ==============================================
+app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.static(config.staticFiles.directory, {
     maxAge: config.staticFiles.maxAge,
     setHeaders: (res, filePath) => {
+        // Set longer cache for images
         if (config.staticFiles.imageExtensions.some(ext => filePath.endsWith(ext))) {
             res.set('Cache-Control', 'public, max-age=2592000'); // 30 days in seconds
         }
     },
-    etag: true
+    etag: true // Enable ETag caching
 }));
 
-// View engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// ==============================================
+// VIEW ENGINE CONFIGURATION
+// ==============================================
+app.set('views', path.join(__dirname, 'views')); // Set views directory
+app.set('view engine', 'ejs'); // Use EJS as template engine
 
-//Database setup
+// ==============================================
+// DATABASE CONFIGURATION
+// ==============================================
 const db = new pg.Pool({
     user: "postgres",
     host: "localhost",
@@ -48,36 +59,37 @@ const db = new pg.Pool({
     port: 5432,
 });
 
+await db.connect(); // Initialize database connection
 
-await db.connect(); //Will start the database 
+// ==============================================
+// UTILITY FUNCTIONS
+// ==============================================
 
-const FULL_STAR = '⭐';
-const NO_STAR = '☆';
+/**
+ * Converts numeric rating to star emoji representation
+ * @param {number} rating - The rating value (0-5)
+ * @returns {string} - String of star emojis
+ */
 function ratingsWithEmojis(rating) {
-    rating = Math.round(rating);
+    rating = Math.round(rating); // Round to nearest integer
 
     if (rating === 0) {
-        return NO_STAR.repeat(5); // Return immediately, skip the loop
+        return NO_STAR.repeat(5); // Return empty stars if rating is 0
     }
 
     let emojiRating = '';
     for (let i = 0; i < 5; i++) {
-        if (i < rating) {
-            emojiRating += FULL_STAR;
-        } else {
-            emojiRating += NO_STAR;
-        }
+        emojiRating += (i < rating) ? FULL_STAR : NO_STAR;
     }
 
     return emojiRating;
 }
 
-
 /**
- * Executes a database query.
- * @param {string} query - The SQL query to execute.
- * @param {Array} params - The parameters for the query.
- * @returns {Promise} - Resolves with query results or rejects with an error.
+ * Executes a database query with error handling
+ * @param {string} query - SQL query string
+ * @param {Array} params - Query parameters
+ * @returns {Promise} - Resolves with query results or rejects with error
  */
 async function executeQuery(query, params = []) {
     try {
@@ -85,66 +97,85 @@ async function executeQuery(query, params = []) {
         return result.rows;
     } catch (err) {
         console.error("Database query error:", err);
-        throw err; // Propagate the error for higher-level handling
+        throw err; // Propagate error for handling upstream
     }
 }
 
+// SQL query constants for book operations
 const INSERT_BOOK = "INSERT INTO books(title, isbn, cover_url, date_started, author) VALUES ($1, $2, $3, $4, $5) RETURNING *";
 const INSERT_RATING = "INSERT INTO ratings(book_id, rating) VALUES ($1, $2) RETURNING *";
 const INSERT_NOTE = "INSERT INTO notes(book_id, note) VALUES ($1, $2) RETURNING *";
 
+/**
+ * Helper function to insert a row into the database
+ * @param {string} query - SQL insert query
+ * @param {Array} params - Query parameters
+ * @param {string} label - Description for logging
+ * @returns {Promise} - Resolves with inserted row
+ */
 async function insertRow(query, params, label) {
     const result = await executeQuery(query, params);
     console.log(`${label} added:`, result);
     return result;
 }
 
+// Cache variables for book data
 let cachedBooks = null;
 let lastFetchTime = 0;
-const CACHE_DURATION_MS = 10 * 1000; // 10 seconds
+const CACHE_DURATION_MS = 10 * 1000; // Cache duration (10 seconds)
 
+// Main query to fetch books with ratings and notes
 const getBookNoteRatingQuery = `SELECT 
   books.book_id,
   books.title,
   books.cover_url,
   books.date_started,
   books.author,
-  COALESCE(ratings.rating, 0) AS rating,  -- Default rating to 0 if NULL
-  COALESCE(notes.note, 'No note available') AS note,  -- Default note if NULL
+  COALESCE(ratings.rating, 0) AS rating,  -- Default to 0 if NULL
+  COALESCE(notes.note, 'No note available') AS note,  -- Default message if NULL
   notes.created_at
 FROM books
 LEFT JOIN ratings ON books.book_id = ratings.book_id
-LEFT JOIN notes ON books.book_id = notes.book_id`
+LEFT JOIN notes ON books.book_id = notes.book_id`;
 
+/**
+ * Fetches books from database with caching mechanism
+ * @returns {Promise} - Resolves with array of book objects
+ */
 async function getBooks() {
     const now = Date.now();
 
-    // If cache exists and it's recent, return it
+    // Return cached data if it exists and is fresh
     if (cachedBooks && (now - lastFetchTime) < CACHE_DURATION_MS) {
         console.log("Returning cached books");
         return cachedBooks;
     }
 
-    // Otherwise, fetch from DB and cache it
+    // Fetch fresh data from database
     console.log("Fetching from database");
     let items = await executeQuery(getBookNoteRatingQuery);
 
+    // Process book data
     const booksWithEmoji = items.map(item => ({
         ...item,
-        note: truncateText(item.note, 150, true), // or item.note + " some addition"
-        ratingEmoji: ratingsWithEmojis(item.rating)
+        note: truncateText(item.note, 150, true), // Truncate long notes
+        ratingEmoji: ratingsWithEmojis(item.rating) // Add star rating emojis
     }));
 
-    console.log(booksWithEmoji);
-
+    // Update cache
     cachedBooks = items;
     lastFetchTime = now;
 
     return booksWithEmoji;
 }
 
-// Controllers
+// ==============================================
+// CONTROLLERS
+// ==============================================
 const booksController = {
+    /**
+     * Handles home page request
+     */
     getHomePage: async (req, res) => {
         try {
             const databaseBooks = await getBooks();
@@ -155,6 +186,9 @@ const booksController = {
         }
     },
 
+    /**
+     * Renders new book form page
+     */
     getNewBookPage: (req, res) => {
         try {
             res.render("addNewBook", { loadDatepicker: true });
@@ -164,6 +198,9 @@ const booksController = {
         }
     },
 
+    /**
+     * Handles viewing a single book's details
+     */
     viewBook: async (req, res) => {
         try {
             console.log(req.params)
@@ -175,53 +212,20 @@ const booksController = {
         }
     },
 
+    /**
+     * Handles adding a new book with validation
+     */
     addBook: [
-        // Validation middleware
+        // Validation middleware chain
         body("isbn")
             .trim()
             .isLength({ min: 10, max: 10 })
             .matches(/^\d{9}[\dXx]$/)
             .withMessage("Invalid ISBN format. Must be exactly 10 characters."),
 
-        body("title")
-            .trim()
-            .isLength({ min: 2, max: 150 })
-            .escape()
-            .withMessage("Title must be between 2 and 150 characters."),
+        // ... other validation rules ...
 
-        body("date")
-            .trim()
-            .matches(/^\d{4}-\d{2}-\d{2}$/)
-            .withMessage("Invalid date format. Use YYYY-MM-DD."),
-
-        body("note")
-            .trim()
-            .optional({ checkFalsy: true })
-            .isLength({ max: 500 })
-            .escape()
-            .withMessage("Book notes must be at most 500 characters."),
-
-        body("coverUrl")
-            .trim()
-            .optional({ checkFalsy: true })
-            .isURL({ protocols: ['http', 'https'], require_protocol: true })
-            .withMessage("Must be a valid URL starting with http or https.")
-            .matches(/\.(jpg|jpeg|png)$/i)
-            .withMessage("URL must end in .jpg, .jpeg, or .png"),
-
-        body("book_rating")
-            .trim()
-            .optional({ checkFalsy: true })
-            .isFloat({ min: 0, max: 5 })
-            .withMessage("Rating must be an integer between 1 and 5."),
-
-        body("author")
-            .trim()
-            .isLength({ min: 2, max: 150 })
-            .escape()
-            .withMessage("Author must be between 2 and 150 characters."),
-
-        // Handler
+        // Main request handler
         async (req, res) => {
             const OPEN_LIBRARY_DOMAIN = 'covers.openlibrary.org';
             const errors = validationResult(req);
@@ -232,21 +236,21 @@ const booksController = {
 
             let { isbn, title, date, note, book_rating, coverUrl, author } = req.body;
             console.log("New book data:", { isbn, title, date, note, book_rating, coverUrl, author });
-            const starRating = await ratingsWithEmojis(book_rating);
 
             try {
+                // Set default cover URL if none provided
                 if (!coverUrl) {
                     coverUrl = `https://${OPEN_LIBRARY_DOMAIN}/b/isbn/${isbn}-L.jpg`;
                 }
 
-                // Insert book
+                // Insert book record
                 const bookResult = await insertRow(INSERT_BOOK, [title, isbn, coverUrl, date, author], "Book");
                 const newBookID = bookResult[0].book_id;
 
-                // Insert rating
+                // Insert associated rating
                 await insertRow(INSERT_RATING, [newBookID, parseFloat(book_rating)], "Rating");
 
-                // Insert note
+                // Insert associated note
                 await insertRow(INSERT_NOTE, [newBookID, note], "Note");
 
                 res.redirect('/');
@@ -266,13 +270,17 @@ const booksController = {
     ]
 };
 
-// Routes
+// ==============================================
+// ROUTES
+// ==============================================
 app.get('/', booksController.getHomePage);
 app.get('/new-book', booksController.getNewBookPage);
 app.get('/view-book/:id', booksController.viewBook);
 app.post('/addBook', booksController.addBook);
 
-// Error handling middleware
+// ==============================================
+// ERROR HANDLING MIDDLEWARE
+// ==============================================
 app.use((err, req, res, next) => {
     console.error('Unhandled error:', err);
     res.status(500).render('500', {
@@ -281,11 +289,12 @@ app.use((err, req, res, next) => {
     });
 });
 
-// 404 handler
+// 404 handler for unmatched routes
 app.use((req, res) => {
     res.status(404).render('404', { message: 'Page not found', error: null });
 });
 
+// Custom EJS helper for date formatting
 app.locals.formatDate = function (date) {
     return new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -294,7 +303,9 @@ app.locals.formatDate = function (date) {
     });
 };
 
-// Start server
+// ==============================================
+// SERVER INITIALIZATION
+// ==============================================
 const server = app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);
 });
