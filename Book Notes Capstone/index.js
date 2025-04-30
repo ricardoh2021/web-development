@@ -39,6 +39,7 @@ app.use(express.static(config.staticFiles.directory, {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+//Database setup
 const db = new pg.Pool({
     user: "postgres",
     host: "localhost",
@@ -165,6 +166,8 @@ const booksController = {
 
     viewBook: async (req, res) => {
         try {
+            console.log(req.params)
+            const { id } = req.params;
             res.render("viewBookDetails");
         } catch (error) {
             console.error("Viewing book page error:", error);
@@ -266,7 +269,7 @@ const booksController = {
 // Routes
 app.get('/', booksController.getHomePage);
 app.get('/new-book', booksController.getNewBookPage);
-app.get('/view-book', booksController.viewBook);
+app.get('/view-book/:id', booksController.viewBook);
 app.post('/addBook', booksController.addBook);
 
 // Error handling middleware
