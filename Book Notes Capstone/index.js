@@ -134,6 +134,22 @@ FROM books
 LEFT JOIN ratings ON books.book_id = ratings.book_id
 LEFT JOIN notes ON books.book_id = notes.book_id`
 
+// SQL query to fetch books with their ratings and notes
+const getBookNoteRatingQuerywithBookID = `SELECT 
+  books.book_id,
+  books.title,
+  books.cover_url,
+  books.date_started,
+  books.author,
+  COALESCE(ratings.rating, 0) AS rating,  -- Default rating to 0 if NULL
+  COALESCE(notes.note, 'No note available') AS note,  -- Default note if NULL
+  notes.created_at
+FROM books
+LEFT JOIN ratings ON books.book_id = ratings.book_id
+LEFT JOIN notes ON books.book_id = notes.book_id
+WHERE books.book_id = $1`;
+
+
 // Function to get books with caching mechanism
 async function getBooks() {
     const now = Date.now();
@@ -163,6 +179,7 @@ async function getBooks() {
 
     return booksWithEmoji;
 }
+
 
 // Controller object containing route handlers
 const booksController = {
@@ -199,12 +216,20 @@ const booksController = {
     // Handler for viewing a single book
     viewBook: async (req, res) => {
         try {
-            console.log(req.params)
-            const { id } = req.params;
-            res.render("viewBookDetails");
+            const result = await executeQuery(getBookNoteRatingQuerywithBookID, [req.params.id]);
+            const book = result[0];
+            if (!book) {
+                return res.status(404).render('404', { message: 'Book not found' });
+            }
+            book.ratingEmoji = ratingsWithEmojis(book.rating);
+            res.render("viewBookDetails", { book: book, title: book.title });
+
         } catch (error) {
             console.error("Viewing book page error:", error);
-            res.status(500).render('500', { message: 'Could not load book page' });
+            // Ensure no duplicate response is sent
+            if (!res.headersSent) {
+                res.status(500).render('500', { message: 'Could not load book page' });
+            }
         }
     },
 

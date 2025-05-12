@@ -2147,6 +2147,11 @@ url(../39795c0b4513de014cf8.woff?dd67030699838ea613ee6dbda90effa6) format("woff"
 .hero-section.book-detail {
   filter: blur(4px);
 }
+@media (max-width: 576px) {
+  .hero-section.book-detail {
+    display: none;
+  }
+}
 .hero-section::before {
   content: "";
   position: absolute;
