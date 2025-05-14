@@ -47,7 +47,9 @@
                 <% for (let star = 1; star <= 5; star++) { %>
                 <div class="star-wrapper <%= book.rating >= star ? 'selected-full' : book.rating >= star - 0.5 ? 'selected-half' : '' %>" 
                    data-rating="<%= star %>">
-                  <i class="<%= book.rating >= star ? 'fas fa-star full-star' : book.rating >= star - 0.5 ? 'fas fa-star-half-alt half-star' : 'far fa-star empty-star' %>"></i>
+                   <i class="far fa-star empty-star"></i>
+                   <i class="fas fa-star-half-alt half-star"></i>
+                   <i class="fas fa-star full-star"></i>
                 </div>
                 <% } %>
               </div>
@@ -94,7 +96,9 @@
                   <% for (let star = 1; star <= 5; star++) { %>
                     <div class="star-wrapper <%= book.rating >= star ? 'selected-full' : book.rating >= star - 0.5 ? 'selected-half' : '' %>" 
                          data-rating="<%= star %>">
-                      <i class="<%= book.rating >= star ? 'fas fa-star full-star' : book.rating >= star - 0.5 ? 'fas fa-star-half-alt half-star' : 'far fa-star empty-star' %>"></i>
+                         <i class="far fa-star empty-star"></i>
+                         <i class="fas fa-star-half-alt half-star"></i>
+                         <i class="fas fa-star full-star"></i>
                     </div>
                   <% } %>
                 </div>
@@ -115,16 +119,114 @@
 </div>
 
 <script>
-  document.getElementById('toggleEdit').addEventListener('click', function() {
-    document.getElementById('viewMode').style.display = 'none';
-    document.getElementById('editMode').style.display = 'block';
-  });
+  let currentHover = 0; // The current hover rating. THis will be used to check if currently hovering or not.
 
-  document.getElementById('cancelEdit').addEventListener('click', function() {
-    document.getElementById('viewMode').style.display = 'block';
-    document.getElementById('editMode').style.display = 'none';
-  });
+  function toggleEditMode(showEdit) {
+    const viewMode = document.getElementById('viewMode');
+    const editMode = document.getElementById('editMode');
+    viewMode.style.display = showEdit ? 'none' : 'block';
+    editMode.style.display = showEdit ? 'block' : 'none';
+  }
 
+  function feedbackTextBasedOnRating(rating) {
+    const feedbackText = "Hover and click on left/right side of stars";
+
+    const feedbackMessages = {
+        0.5: "You wasted your time. Learn from this failure. Adapt. Move on. 📉",
+        1: "That book broke you, but you ain’t staying down. Find a better one. 🔥",
+        1.5: "You forced yourself to finish, but was it worth it? Demand more. 🏋️",
+        2: "Mediocre effort. You don’t settle for average—why should your books? ⚔️",
+        2.5: "Halfway decent, but halfway doesn’t cut it in life. Keep pushing. 🚀",
+        3: "Solid, but solid isn’t greatness. What did you LEARN? Apply it. 📖",
+        3.5: "This book had value, but don’t just read—EXECUTE. Get after it. 🔥",
+        4: "That was strong! Take the lessons and make them count. No excuses. 💯",
+        4.5: "Great book! But greatness demands ACTION. Don’t just read—LIVE IT. 🚀",
+        5: "This book is a WEAPON. If you don’t use what you learned, you wasted it. GO! 🔥💪",
+    };
+
+      const feedbackElement = document.querySelector('.rating-feedback');
+      if (!feedbackElement) return;
+
+      if (Object.prototype.hasOwnProperty.call(feedbackMessages, rating)) {
+          feedbackElement.textContent = `Rating: ${rating}: ${feedbackMessages[rating]}`;
+      } else {
+          feedbackElement.textContent = feedbackText;
+      }
+    }
+
+    function updateHoverDisplay(stars) {
+    // Get all star elements    
+    // Remove previous hover classes
+    stars.forEach(star => {
+      star.classList.remove('hover-half', 'hover-full');
+    });
+    
+    // Check if hovering (currentHover > 0)
+    if (currentHover > 0) {
+      stars.forEach(star => {
+        const starValue = parseFloat(star.dataset.rating);
+        
+        if (starValue <= currentHover) {
+          star.classList.add('hover-full');
+        } 
+        else if (starValue - 0.5 === currentHover) {
+          star.classList.add('hover-half');
+        }
+      });
+    }
+  }
+
+  function updateStarDisplay(stars, rating) {
+    stars.forEach(star => {
+      star.classList.remove('selected-half', 'selected-full');
+    });
+
+    stars.forEach(star => {
+      const starValue = parseFloat(star.dataset.rating);
+      if (starValue <= rating) {
+        star.classList.add('selected-full');
+      } else if (starValue - 0.5 === rating) {
+        star.classList.add('selected-half');
+      }
+    });
+    feedbackTextBasedOnRating(rating);
+  }
+
+  function setupRatingStars(stars, ratingInput) {
+    stars.forEach(star => {
+      star.addEventListener('mousemove', function (event) {
+        const rect = this.getBoundingClientRect();
+        const isLeftHalf = event.clientX < rect.left + rect.width / 2;
+        this.dataset.half = isLeftHalf ? 'true' : 'false';
+        currentHover = parseInt(this.dataset.rating) - (isLeftHalf ? 0.5 : 0);
+        updateHoverDisplay(stars);
+      });
+
+      star.addEventListener('mouseleave', function (event) {
+        console.log('mouseleave');
+        currentHover = 0;
+        updateHoverDisplay(stars);        
+      });
+
+      star.addEventListener('click', function () {
+        const selectedRating = parseInt(this.dataset.rating);
+        const isHalf = this.dataset.half === 'true';
+        const finalRating = isHalf ? selectedRating - 0.5 : selectedRating;
+        ratingInput.value = finalRating;
+        updateStarDisplay(stars, finalRating);
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('toggleEdit').addEventListener('click', () => toggleEditMode(true));
+    document.getElementById('cancelEdit').addEventListener('click', () => toggleEditMode(false));
+
+    const stars = document.querySelectorAll('.edit-mode .star-wrapper');
+    const ratingInput = document.getElementById('edit_rating');
+    setupRatingStars(stars, ratingInput);
+    updateStarDisplay(stars, parseFloat(ratingInput.value));
+  });
 </script>
 
 <%- include('partials/footer.ejs'); -%>

@@ -334,6 +334,13 @@ hr {
   text-decoration: underline;
 }
 
+#viewMode {
+  .star-wrapper {
+    cursor: default;
+    pointer-events: none; // Optional: disables all mouse interactions
+  }
+}
+
 .book-rating {
   $star-size: 2.5rem;
   $active-color: #ffc107;

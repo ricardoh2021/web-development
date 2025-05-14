@@ -2364,6 +2364,11 @@ hr {
   text-decoration: underline;
 }
 
+#viewMode .star-wrapper {
+  cursor: default;
+  pointer-events: none;
+}
+
 .book-rating {
   /* Half-star hover effect */
   /* Full-star hover effect */
