@@ -2,7 +2,7 @@
 <%- include('partials/navbar.ejs'); -%>
 
 <div class="hero-section home px-4 pb-5 mb-5 text-center" >
-    <h2 class="display-5 fw-bold py-5">Ricardo Hernandez Book Ratings</h1>
+    <h2 class="display-5 fw-bold py-5">Ricardo Hernandez Book Ratings</h2>
     <div class="col-lg-6 mx-auto">
       <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -14,52 +14,57 @@
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 align-items-stretch g-4 py-5 mx-5">
   <% books.forEach((book, index) => { %>
     <div class="col">
-      <div class="book-card position-relative overflow-hidden rounded-4 shadow-lg h-100"
-           data-book-id="<%= book.id %>">
+      <article class="book-card position-relative overflow-hidden rounded-4 shadow-lg h-100"
+           data-book-id="<%= book.id %>"
+           aria-labelledby="book-title-<%= index %> book-desc-<%= index %>">
         <div class="card h-100">
           <!-- Front Face -->
           <div class="card-front h-100 rounded-4 lazy-load" 
                data-bg="<%= book.cover_url %>" 
-               style="background-blend-mode: overlay;">
+               style="background-blend-mode: overlay;"
+               role="img"
+               aria-label="Book cover for <%= book.title %>">
             <div class="rating d-flex align-items-center">
-              <span class="fw-semibold"><%=book.rating %> <%= book.ratingEmoji %></span>
+              <span class="fw-semibold" aria-hidden="true"><%=book.rating %> <%= book.ratingEmoji %></span>
+              <span class="visually-hidden">Rating: <%=book.rating %> out of 5</span>
             </div>
           </div>
           
-          <!-- Back Face (hidden on mobile) -->
+          <!-- Back Face -->
           <div class="card-back text-white h-100 rounded-4 p-4 d-none d-md-block">
-            <h3 class="card-title fs-4 mb-3"><%- book.title %></h3>
+            <h3 id="book-title-<%= index %>" class="card-title fs-4 mb-3"><%- book.title %></h3>
             <div class="meta mt-auto small">
-              <p class="mb-1">Started on: <strong><%= formatDate(book.date_started) %></strong></p>
+              <p class="mb-1">Started on: <strong><time datetime="<%= new Date(book.date_started).toISOString() %>"><%= formatDate(book.date_started) %></time></strong></p>
               <p class="mb-0">Author: <strong><%= book.author %></strong></p>
             </div>
-            <div class="notes flex-grow-1 my-3"><%= book.note %></div>
+            <p id="book-desc-<%= index %>" class="notes flex-grow-1 my-3"><%= book.note %></p>
             
-            <!-- Click indicator -->
-            <div class="click-indicator text-center mb-3">
-              <div class="d-flex justify-content-center align-items-center">
-                <a class="me-2" href="/view-book/<%= book.book_id %>" >Click for full notes</a>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                </svg>
+            <a href="/view-book/<%= book.book_id %>" aria-label="View full notes for <%= book.title %>">
+              <div class="click-indicator text-center mb-3">
+                <div class="d-flex justify-content-center align-items-center">
+                  <span>Click for full notes</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                  </svg>
+                </div>
               </div>
-            </div>
+            </a>
           </div>
           
           <!-- Mobile Expandable Section -->
-          <div class="mobile-expand">
-            <h3 class="h5 mb-3"><%= book.title %></h3>
-            <div class="notes mb-3"><%= book.note %></div>
+          <section class="mobile-expand" aria-labelledby="mobile-title-<%= index %>">
+            <h3 id="mobile-title-<%= index %>" class="h5 mb-3"><%= book.title %></h3>
+            <p class="notes mb-3"><%= book.note %></p>
             <div class="meta small mb-3">
-              <p class="mb-1">Read on: <strong><%= formatDate(book.date_started) %></strong></p>
+              <p class="mb-1">Read on: <strong><time datetime="<%= new Date(book.date_started).toISOString() %>"><%= formatDate(book.date_started) %></time></strong></p>
               <p class="mb-2">Author: <strong><%= book.author %></strong></p>
             </div>
-            <a href="/view-book/<%= book.book_id %>" class="btn btn-sm btn-outline-light">
+            <a href="/view-book/<%= book.book_id %>" class="btn btn-sm btn-outline-light" aria-label="View full notes for <%= book.title %>">
               View Full Notes
             </a>
-          </div>
+          </section>
         </div>
-      </div>
+      </article>
     </div>
   <% }); %>
 </div>

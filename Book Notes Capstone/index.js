@@ -1,4 +1,5 @@
 // Import required modules for the Express application
+import sanitizeHtml from 'sanitize-html';
 import express from 'express';
 import bodyParser from 'body-parser';
 import { body, validationResult } from 'express-validator';
@@ -174,7 +175,7 @@ async function getBooks() {
     console.log(booksWithEmoji);
 
     // Update cache
-    cachedBooks = items;
+    cachedBooks = booksWithEmoji;
     lastFetchTime = now;
 
     return booksWithEmoji;
@@ -260,7 +261,6 @@ const booksController = {
             .trim()
             .optional({ checkFalsy: true })
             .isLength({ max: 500 })
-            .escape()
             .withMessage("Book notes must be at most 500 characters."),
 
         // Validation for cover URL (optional)
@@ -298,6 +298,10 @@ const booksController = {
 
             // Extract form data
             let { isbn, title, date, note, book_rating, coverUrl, author } = req.body;
+            note = sanitizeHtml(note, {
+                allowedTags: [],
+                allowedAttributes: {}
+            });
             console.log("New book data:", { isbn, title, date, note, book_rating, coverUrl, author });
             const starRating = await ratingsWithEmojis(book_rating);
 
