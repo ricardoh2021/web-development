@@ -61,7 +61,7 @@
           </div>
 
           <!-- Edit Mode (Initially Hidden) -->
-          <form id="editMode" action="/books/<%= book.id %>/update" method="POST" style="display: none;">
+          <form id="editMode" action="/updateBook/<%= book.book_id %>" method="POST" style="display: none;">
             <div class="mb-3">
               <label for="title" class="form-label">Title</label>
               <input type="text" class="form-control" id="title" name="title" value="<%= book.title %>" required>
@@ -81,7 +81,7 @@
             <div class="mb-3">
               <label for="date_finished" class="form-label">Finished Date</label>
               <input type="date" class="form-control" id="date_finished" name="date_finished" 
-                     value="<%= book.date_finished ? new Date(book.date_finished).toISOString().split('T')[0] : '' %>">
+                     value="<%= book.date_finished ? new Date(book.date_finished).toISOString().split('T')[0] : '' %>" max="<%= new Date().toISOString().split('T')[0] %>">
             </div>
 
             <div class="mb-3">

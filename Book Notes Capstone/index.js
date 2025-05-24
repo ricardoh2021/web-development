@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { truncateText } from './src/js/util_server_side.js';
 import { title } from 'process';
+import { log } from 'console';
 
 // Get current file and directory paths (needed for ES modules)
 const __filename = fileURLToPath(import.meta.url);
@@ -127,6 +128,7 @@ const getBookNoteRatingQuery = `SELECT
   books.title,
   books.cover_url,
   books.date_started,
+  books.date_finished,
   books.author,
   COALESCE(ratings.rating, 0) AS rating,  -- Default rating to 0 if NULL
   COALESCE(notes.note, 'No note available') AS note,  -- Default note if NULL
@@ -141,6 +143,7 @@ const getBookNoteRatingQuerywithBookID = `SELECT
   books.title,
   books.cover_url,
   books.date_started,
+  books.date_finished,
   books.author,
   COALESCE(ratings.rating, 0) AS rating,  -- Default rating to 0 if NULL
   COALESCE(notes.note, 'No note available') AS note,  -- Default note if NULL
@@ -223,6 +226,7 @@ const booksController = {
                 return res.status(404).render('404', { message: 'Book not found' });
             }
             book.ratingEmoji = ratingsWithEmojis(book.rating);
+            console.log("Book date finished:", book.date_finished);
             res.render("viewBookDetails", { book: book, title: book.title });
 
         } catch (error) {
@@ -231,6 +235,48 @@ const booksController = {
             if (!res.headersSent) {
                 res.status(500).render('500', { message: 'Could not load book page' });
             }
+        }
+    },
+
+    // Handler for updating a book
+    updateBook: async (req, res) => {
+        console.log("Updating book with ID:", req.params.id);
+        const { title, author, date_started, date_finished, note, rating } = req.body;
+        const bookId = req.params.id;
+
+
+        try {
+            const updatedDateFinished = date_finished ? date_finished : null;
+            console.log("Updated date finished:", updatedDateFinished);
+            // Update the book details in the database
+            await executeQuery(
+                `UPDATE books 
+           SET title = $1, author = $2, date_started = $3, date_finished = $4 
+           WHERE book_id = $5`,
+                [title, author, date_started, updatedDateFinished, bookId]
+            );
+
+            // Update the rating in the database
+            await executeQuery(
+                `UPDATE ratings 
+           SET rating = $1 
+           WHERE book_id = $2`,
+                [rating, bookId]
+            );
+
+            // Update the note in the database
+            await executeQuery(
+                `UPDATE notes 
+           SET note = $1 
+           WHERE book_id = $2`,
+                [note, bookId]
+            );
+
+            // Redirect back to the book details page
+            res.redirect(`/view-book/${bookId}`);
+        } catch (error) {
+            console.error('Error updating book:', error);
+            res.status(500).render('500', { message: 'Could not update book' });
         }
     },
 
@@ -360,6 +406,8 @@ app.get('/about', booksController.getAboutPage);
 // Add new book submission route
 app.post('/addBook', booksController.addBook);
 
+//route for updating book
+app.post('/updateBook/:id', booksController.updateBook);
 
 
 // Global error handler middleware
